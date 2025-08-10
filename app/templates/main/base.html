@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% block style %}{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <div class="left">
+        <div class="sidebar">
+            <div class="section-title">Меню</div>
+
+            <div class="menu-item active">
+                <a href="{{ url_for('main.index') }}" class="menu-link"></a>
+                <i class="fas fa-home"></i>
+                <span>Главная</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-user"></i>
+                <span>Подписки</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-star"></i>
+                <span>Избранное</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-heart"></i>
+                <span>Нравится</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-file-alt"></i>
+                <span>Мои посты</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-user"></i>
+                <span>Мой профиль</span>
+            </div>
+
+            <div class="post-button-container">
+                <button class="post-button">
+                    <span class="post-button-text">Пост</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+       {% block main %}{% endblock %}
+    </div>
+
+    <div class="right">
+        <div class="sidebar"></div>
+    </div>
+    
+
+</body>
+</html>
