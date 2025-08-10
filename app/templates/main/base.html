@@ -40,11 +40,21 @@
                 <span>Мой профиль</span>
             </div>
 
-            <div class="post-button-container">
-                <button class="post-button">
-                    <span class="post-button-text">Пост</span>
-                </button>
-            </div>
+
+            {% if current_user.is_authenticated %}
+                <div class="post-button-container">
+                    <button class="post-button">
+                        <span class="post-button-text">Пост</span>
+                    </button>
+                </div>
+            {% else %}
+                <div class="login-button-container">
+                        <button class="login-button">
+                            <span class="login-button-text">Войти</span>
+                        </button>
+                </div>
+            {% endif %}
+
         </div>
     </div>
 

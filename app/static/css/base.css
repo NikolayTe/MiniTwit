@@ -153,3 +153,32 @@ body {
 .post-button-text {
   margin-left: 5px;
 }
+
+.login-button-container {
+  padding: 20px 15px;
+  margin-top: 20px;
+}
+
+.login-button {
+  width: 100%;
+  padding: 15px 0;
+  background-color: #1d9bf0;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-button:hover {
+  background-color: #1a8cd8;
+}
+
+.login-button-text {
+  margin-left: 5px;
+}
