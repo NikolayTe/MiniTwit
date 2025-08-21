@@ -48,9 +48,9 @@
                     </button>
                 </div>
             {% else %}
-                <div class="login-button-container">
+                <div class="login-button-container" id="loginBtn">
                         <button class="login-button">
-                            <span class="login-button-text">Войти</span>
+                            <span class="loginBtn" id="loginBtn">Войти</span>
                         </button>
                 </div>
             {% endif %}
@@ -63,9 +63,76 @@
     </div>
 
     <div class="right">
-        <div class="sidebar"></div>
+        <div class="sidebar">
+            {% if current_user.is_authenticated %}
+                <div class="post-button-container" id="logoutBtn">
+                     <button class="logout-button">
+                        <span class="logout-button-text" id="logoutBtn">Выйти</span>
+                    </button>
+                </div>
+            {% endif %}
+
+        </div>
     </div>
     
+
+    <div class="modal-overlay" id="modalOverlay" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <button class="modal-close" id="modalClose">×</button>
+                <div class="modal-title">Вход в систему</div>
+            </div>
+            <div class="modal-tabs">
+                <button class="modal-tab active" data-tab="login" id="loginTab">Вход</button>
+                <button class="modal-tab" data-tab="register">Регистрация</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email или логин</label>
+                        <input type="text" id="loginEmail" placeholder="Введите email или логин" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Пароль</label>
+                        <input type="password" id="loginPassword" placeholder="Введите пароль" required="">
+                    </div>
+                    <button type="submit" class="form-submit">Войти</button>
+                    <div class="form-footer">
+                        <a href="#">Забыли пароль?</a>
+                    </div>
+                </form>
+                
+                <form id="registerForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="registerName">Имя и фамилия</label>
+                        <input type="text" id="registerName" placeholder="Введите ваше имя и фамилию" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" placeholder="Введите email" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerUsername">Логин</label>
+                        <input type="text" id="registerUsername" placeholder="Придумайте логин" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Пароль</label>
+                        <input type="password" id="registerPassword" placeholder="Придумайте пароль" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPasswordConfirm">Подтверждение пароля</label>
+                        <input type="password" id="registerPasswordConfirm" placeholder="Повторите пароль" required="">
+                    </div>
+                    <button type="submit" class="form-submit">Зарегистрироваться</button>
+                    <div class="form-footer">
+                        Нажимая кнопку "Зарегистрироваться", вы принимаете <a href="#">условия использования</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script src="{{ url_for('static', filename='js/base.js') }}"></script>
 
 </body>
 </html>
