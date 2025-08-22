@@ -1,15 +1,26 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 from ..extensions import db
 from ..models.user import User
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
+from functools import wraps
 
 
 user = Blueprint('user', __name__)
 
-@user.route('/user/<name>')
-def create_user(name):
-    user = User(name=name)
-    db.session.add(user)
-    db.session.commit()
+def my_login_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print('my_login_required')
+        if not current_user.is_authenticated:
+            return render_template('/main/custom_index.html', message='Пожалуйста авторизуйтесь!')
+        return func(*args, **kwargs)
 
-    return 'User created succesfully!'
+    return wrapper
+
+
+@user.route('/user/<name>', methods=['GET'])
+@my_login_required
+def user_profil(name):
+    print('name', name)
+
+    return render_template("main/profil.html")

@@ -11,7 +11,7 @@ body {
     overflow:auto;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE и Edge */
-    padding-top: 50px;
+    padding-top: 28px;
 }
 .main::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
@@ -55,7 +55,8 @@ body {
 
 .sidebar {
     background: white;
-    height: 600px;
+    /* height: 600px; */
+    height: 90%;
     width: 20vw;
     min-width: 250px;
     border-radius: 30px;

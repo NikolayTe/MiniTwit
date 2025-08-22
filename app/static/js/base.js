@@ -134,37 +134,73 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-
-    console.log('jhgjg')
-
-    // Выход 
+     // Выход 
     const logoutBtn = document.getElementById('logoutBtn');
-
-    logoutBtn.addEventListener('click', async function(){
-        console.log('jhgjg')
-        try {
-            // Отправляем POST запрос
-            const response = await fetch('/api/logout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify()
-            });
-            const result = await response.json();
-            if (result.success) {
-                // Успешная авторизация
-                alert('Выход выполнен успешно!');
-                location.reload();
-            } else {
-                // Ошибка от сервера
-                alert('Неизвестная ошибка' + result.message);
+    if (logoutBtn){
+        
+        logoutBtn.addEventListener('click', async function(){
+            try {
+                // Отправляем POST запрос
+                const response = await fetch('/api/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify()
+                });
+                const result = await response.json();
+                if (result.success) {
+                    // Успешная авторизация
+                    alert('Выход выполнен успешно!');
+                    location.reload();
+                } else {
+                    // Ошибка от сервера
+                    alert('Неизвестная ошибка' + result.message);
+                }
+            } catch (error) {
+                console.error('Ошибка сети:', error);
+                alert('Ошибка сети. Попробуйте позже.');
             }
-        } catch (error) {
-            console.error('Ошибка сети:', error);
-            alert('Ошибка сети. Попробуйте позже.');
+        });
+    }
+    
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.menu-item').forEach(item => {
+        if (item.getAttribute('data-href') === currentPath)  {
+            item.classList.add('active');
         }
-        console.log('jhgjg')
+        else{
+            if (String(item.getAttribute('data-href')).includes('/user/') && currentPath.includes('/user/') ){
+                item.classList.add('active');
+            }
+            else{
+                item.classList.remove('active');
+            }
+            
+        }
+
+        item.addEventListener('click', function() {
+
+        const url = this.getAttribute('data-href');
+        if (url) {
+            if (url === '/user/'){
+                window.location.href = url + '0';
+            }
+            else{
+                window.location.href = url;
+            }
+        }
+        console.log('item', item, 'this', this)
+    })
 
     });
+
+     // При загрузке страницы определяем активный пункт меню по URL
+    // const currentPath = window.location.pathname;
+    
+
+   
+
+
+
 });

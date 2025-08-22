@@ -1,0 +1,108 @@
+{% extends 'main/base.html' %}
+
+
+{% block title %}
+Мой Профиль
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profil.css') }}">
+{% endblock %}
+
+
+{% block main %}
+<div class="profile-container">
+        <div class="profile-header">
+            <h1 class="profile-title">Мой профиль</h1>
+        </div>
+        
+        <div class="avatar-section">
+            <div class="avatar">ИП</div>
+            <div class="avatar-upload">
+                <button class="avatar-upload-btn">Сменить аватар</button>
+                <span style="font-size: 12px; color: #65676b;">JPG, PNG или GIF. Макс. 5MB</span>
+            </div>
+        </div>
+        
+        <div class="user-stats">
+            <div class="stat-item">
+                <div class="stat-number">156</div>
+                <div class="stat-label">Постов</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1.2k</div>
+                <div class="stat-label">Подписчиков</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">89</div>
+                <div class="stat-label">Подписок</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">2.4k</div>
+                <div class="stat-label">Лайков</div>
+            </div>
+        </div>
+        
+        <form class="profile-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="displayName">Отображаемое имя</label>
+                    <input type="text" id="displayName" value="Иван Петров">
+                </div>
+                <div class="form-group">
+                    <label for="username">Имя пользователя</label>
+                    <input type="text" id="username" value="hampeterov">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" value="ivan@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="tel" id="phone" value="+7 (999) 123-45-67">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="bio">О себе</label>
+                <textarea id="bio">Разработчик Full-Stack. Люблю Python, Flask и современный JavaScript. Создаю крутые веб-приложения!</textarea>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="location">Местоположение</label>
+                    <input type="text" id="location" value="Москва, Россия">
+                </div>
+                <div class="form-group">
+                    <label for="website">Веб-сайт</label>
+                    <input type="url" id="website" value="https://petrov-dev.ru">
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="cancel-btn">Отмена</button>
+                <button type="submit" class="save-btn">Сохранить изменения</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.querySelector('.profile-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Изменения сохранены успешно!');
+        });
+        
+        document.querySelector('.cancel-btn').addEventListener('click', function() {
+            if (confirm('Отменить изменения?')) {
+                window.location.reload();
+            }
+        });
+        
+        document.querySelector('.avatar-upload-btn').addEventListener('click', function() {
+            alert('Функция смены аватара будет реализована позже');
+        });
+    </script>
+{% endblock %}
