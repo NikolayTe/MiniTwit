@@ -47,38 +47,39 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="displayName">Отображаемое имя</label>
-                    <input type="text" id="displayName" value="Иван Петров">
+                    <input type="text" id="displayName" name="displayName" value="{{user.displayName}}">
+                    <input type="hidden" name="id" value="{{ user.id }}">
                 </div>
                 <div class="form-group">
                     <label for="username">Имя пользователя</label>
-                    <input type="text" id="username" value="hampeterov">
+                    <input type="text" id="username" name="username" value="{{user.username}}">
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" value="ivan@example.com">
+                    <input type="email" id="email" name="email" value="{{user.email}}">
                 </div>
                 <div class="form-group">
                     <label for="phone">Телефон</label>
-                    <input type="tel" id="phone" value="+7 (999) 123-45-67">
+                    <input type="tel" id="phone" name="phone" value="{{user.phone}}">
                 </div>
             </div>
             
             <div class="form-group">
                 <label for="bio">О себе</label>
-                <textarea id="bio">Разработчик Full-Stack. Люблю Python, Flask и современный JavaScript. Создаю крутые веб-приложения!</textarea>
+                <textarea id="bio" name="bio" >{{user.bio}}</textarea>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="location">Местоположение</label>
-                    <input type="text" id="location" value="Москва, Россия">
+                    <input type="text" id="location" name="location" value="{{user.location}}">
                 </div>
                 <div class="form-group">
                     <label for="website">Веб-сайт</label>
-                    <input type="url" id="website" value="https://petrov-dev.ru">
+                    <input type="url" id="website" name="url" value="{{user.url}}">
                 </div>
             </div>
             
@@ -89,20 +90,5 @@
         </form>
     </div>
 
-    <script>
-        document.querySelector('.profile-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Изменения сохранены успешно!');
-        });
-        
-        document.querySelector('.cancel-btn').addEventListener('click', function() {
-            if (confirm('Отменить изменения?')) {
-                window.location.reload();
-            }
-        });
-        
-        document.querySelector('.avatar-upload-btn').addEventListener('click', function() {
-            alert('Функция смены аватара будет реализована позже');
-        });
-    </script>
 {% endblock %}
+{% block script %}<script src="{{ url_for('static', filename='js/profil.js') }}"></script>{% endblock %}

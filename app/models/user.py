@@ -19,6 +19,10 @@ class User(db.Model, UserMixin):
     avatar_path = db.Column(db.String(50))
     created_at = db.Column(db.Date, default=date.today)
 
+    location = db.Column(db.String(255), nullable=True)
+    phone = db.Column(db.String(14), nullable=True)
+    url = db.Column(db.String(255), default='')
+
     def set_password(self, password):
         """Устанавливает пароль (автоматически хеширует)"""
         self.password_hash = generate_password_hash(password)
@@ -26,6 +30,20 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         """Проверяет пароль БЕЗ получения хеша"""
         return check_password_hash(self.password_hash, password)
+    
+    def get_user_data(self):
+
+        return { 'id': self.id,
+                'username': self.username,
+                'email': self.email,
+                'displayName': self.displayName,
+                'bio': self.bio,
+                'avatar_path': self.avatar_path,
+                'created_at': self.created_at,
+                'location': self.location,
+                'phone': self.phone,
+                'url': self.url
+        }
 
 
 

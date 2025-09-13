@@ -3,7 +3,7 @@ from ..extensions import db
 from ..models.user import User, check_user_from_db
 from ..models.post import Post
 from werkzeug.security import generate_password_hash
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 
 
 api = Blueprint('api', __name__)
@@ -78,4 +78,33 @@ def logout():
     logout_user()
 
     return jsonify({'success': True, 'message': 'User logout!'})
+
+
+@api.route('/api/<int:id>/edit_profile', methods=['POST'])
+@login_required
+def edit_profile(id):
+    try:
+        if int(request.json.get('id')) != id:
+            return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+
+        data = request.get_json()
+
+        user = User.query.get(id)
+
+        user.displayName = data.get('displayName')
+        user.username = data.get('username')
+        user.email = data.get('email')
+        user.bio = data.get('bio')
+        user.location = data.get('location')
+        user.phone = data.get('phone')
+        user.url = data.get('url')
+
+        db.session.commit()
+
+
+    except Exception as ex:
+        return jsonify({'success': False, 'message': ex})
+
+    return jsonify({'success': True, 'message': 'The profile has been edited!'})
+
 

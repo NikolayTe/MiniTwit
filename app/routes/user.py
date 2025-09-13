@@ -18,9 +18,13 @@ def my_login_required(func):
     return wrapper
 
 
-@user.route('/user/<name>', methods=['GET'])
+@user.route('/user/<id>', methods=['GET'])
 @my_login_required
-def user_profil(name):
-    print('name', name)
+def user_profil(id):
+    print('id', id)
 
-    return render_template("main/profil.html")
+    user = User.query.get(id)
+    user_data = user.get_user_data()
+    return render_template("main/profil.html", user=user_data)
+
+

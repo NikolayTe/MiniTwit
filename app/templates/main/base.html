@@ -36,7 +36,7 @@
                 <span>Мои посты</span>
             </div>
 
-            <div class="menu-item" data-href="{{ url_for('user.user_profil', name=current_user.username) }}">
+            <div class="menu-item" data-href="{{ url_for('user.user_profil', id=current_user.id) }}">
                 <i class="fas fa-user"></i>
                 <span>Мой профиль</span>
             </div>
@@ -139,5 +139,6 @@
 
 <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 
+{% block script %}{% endblock %}
 </body>
 </html>
