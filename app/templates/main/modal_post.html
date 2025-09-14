@@ -1,0 +1,29 @@
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/modal_post.css') }}">
+{% endblock %}
+
+<div class="modal-post-overlay" id="modalPostOverlay">
+        <div class="modal-post">
+            <div class="modal-post-header">
+                <button class="modal-post-close-button" onclick="closeModalPost()">×</button>
+            </div>
+            <div class="modal-post-body">
+                <form class="modal-post-form" onsubmit="handlePostSubmit(event)">
+                    <div class="modal-post-avatar"></div>
+                    <div class="modal-post-input-container">
+                        <textarea class="modal-post-input" placeholder="Что происходит?" maxlength="280" oninput="updatePostCharacterCount()" id="modalPostInput"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-post-footer">
+                <span class="modal-post-character-count" id="modalPostCharacterCount" style="color: rgb(101, 119, 134);">0/280</span>
+                <button type="button" class="modal-post-submit" onclick="handlePostSubmit(event)" id="modalPostSubmitButton" disabled="">
+                    Твитнуть
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block script %}<script src="{{ url_for('static', filename='js/modal_post.js') }}"></script>{% endblock %}

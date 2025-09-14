@@ -44,8 +44,8 @@
 
             {% if current_user.is_authenticated %}
                 <div class="post-button-container">
-                    <button class="post-button">
-                        <span class="post-button-text">Пост</span>
+                    <button class="post-button" onclick="openModalPost()">
+                        <span class="post-button-text" >Пост</span>
                     </button>
                 </div>
             {% else %}
@@ -136,6 +136,9 @@
             </div>
         </div>
     </div>
+
+    {% include 'main/modal_post.html' %}
+
 
 <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 

@@ -108,3 +108,9 @@ def edit_profile(id):
     return jsonify({'success': True, 'message': 'The profile has been edited!'})
 
 
+@api.route('/api/new_post', methods=['POST'])
+@login_required
+def new_post():
+    print("OK new post", request.json)
+
+    return jsonify({'success': True, 'message': 'The post has been published!'})

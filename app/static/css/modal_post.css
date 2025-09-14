@@ -1,0 +1,149 @@
+.tweet-button {
+            background-color: #1da1f2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .tweet-button:hover {
+            background-color: #1a91da;
+        }
+
+        .modal-post-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .modal-post-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-post {
+            background-color: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-post-header {
+            padding: 16px;
+            border-bottom: 1px solid #e6ecf0;
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-post-close-button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #1da1f2;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .modal-post-close-button:hover {
+            background-color: #e8f5fe;
+        }
+
+        .modal-post-body {
+            padding: 16px;
+        }
+
+        .modal-post-form {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-post-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #1da1f2;
+            flex-shrink: 0;
+        }
+
+        .modal-post-input-container {
+            flex: 1;
+        }
+
+        .modal-post-input {
+            width: 100%;
+            border: none;
+            resize: none;
+            font-size: 18px;
+            font-family: inherit;
+            min-height: 120px;
+            outline: none;
+            padding: 8px 0;
+        }
+
+        .modal-post-input::placeholder {
+            color: #8a8a8a;
+        }
+
+        .modal-post-footer {
+            padding: 16px;
+            border-top: 1px solid #e6ecf0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .modal-post-submit {
+            background-color: #1da1f2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .modal-post-submit:hover:not(:disabled) {
+            background-color: #1a91da;
+        }
+
+        .modal-post-submit:disabled {
+            background-color: #8ed0f9;
+            cursor: not-allowed;
+        }
+
+        .modal-post-character-count {
+            color: #657786;
+            font-size: 14px;
+            margin-right: 12px;
+            align-self: center;
+        }
+
+        @media (max-width: 480px) {
+            .modal-post {
+                width: 95%;
+                margin: 10px;
+            }
+            
+            .modal-post-input {
+                font-size: 16px;
+            }
+        }
