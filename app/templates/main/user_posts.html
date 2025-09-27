@@ -1,42 +1,85 @@
 {% extends 'main/base.html' %}
 
-
 {% block title %}
-Мои посты
+Главная страница
 {% endblock%}
 
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}
+
+
 {% block main %}
-<div class="tweet">
-  <div class="tweet-header">
-    <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Анна Сидорова" class="tweet-avatar">
-    <div class="tweet-user-info">
-      <span class="tweet-username">Анна Сидорова</span>
-      <span class="tweet-usertag">@annasidorova</span>
-      <span class="tweet-time">· 5 ч назад</span>
+<div class="twitter-style-posts">
+  <!-- Пост 1 -->
+  <div class="tweet">
+    <div class="tweet-header">
+      <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="tweet-avatar">
+      <div class="tweet-user-info">
+        <span class="tweet-username">Иван Петров</span>
+        <span class="tweet-usertag">@ivanpetrov</span>
+        <span class="tweet-time">· 2 ч назад</span>
+      </div>
+      <div class="tweet-more-options">···</div>
     </div>
-    <button class="tweet-more-options" aria-label="Дополнительные опции">···</button>
+    <div class="tweet-content">
+      <p>Сегодня прекрасный день для кодинга! Только что закончил новый проект на Flask. #программирование #webdev</p>
+      <div class="tweet-image">
+        <img src="https://source.unsplash.com/random/600x300/?coding" alt="Tweet image">
+      </div>
+    </div>
+    <div class="tweet-footer">
+      <div class="tweet-action">
+        <i class="far fa-comment"></i>
+        <span>24</span>
+      </div>
+      <div class="tweet-action">
+        <i class="fas fa-retweet"></i>
+        <span>12</span>
+      </div>
+      <div class="tweet-action">
+        <i class="far fa-heart"></i>
+        <span>156</span>
+      </div>
+      <div class="tweet-action">
+        <i class="fas fa-share"></i>
+      </div>
+    </div>
   </div>
-  
-  <div class="tweet-content">
-    <p>Только что попробовала новый рецепт пирога - получилось невероятно вкусно! 🍰 Кто хочет рецепт?</p>
-  </div>
-  
-  <div class="tweet-footer">
-    <button class="tweet-action" aria-label="Комментировать">
-      <i class="far fa-comment"></i>
-      <span>42</span>
-    </button>
-    <button class="tweet-action" aria-label="Ретвитнуть">
-      <i class="fas fa-retweet"></i>
-      <span>8</span>
-    </button>
-    <button class="tweet-action" aria-label="Лайкнуть">
-      <i class="far fa-heart"></i>
-      <span>89</span>
-    </button>
-    <button class="tweet-action" aria-label="Поделиться">
-      <i class="fas fa-share"></i>
-    </button>
+
+  <!-- Пост 2 -->
+  <div class="tweet">
+    <div class="tweet-header">
+      <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="User" class="tweet-avatar">
+      <div class="tweet-user-info">
+        <span class="tweet-username">Анна Сидорова</span>
+        <span class="tweet-usertag">@annasidorova</span>
+        <span class="tweet-time">· 5 ч назад</span>
+      </div>
+      <div class="tweet-more-options">···</div>
+    </div>
+    <div class="tweet-content">
+      <p>Только что попробовала новый рецепт пирога - получилось невероятно вкусно! 🍰 Кто хочет рецепт?</p>
+    </div>
+    <div class="tweet-footer">
+      <div class="tweet-action">
+        <i class="far fa-comment"></i>
+        <span>42</span>
+      </div>
+      <div class="tweet-action">
+        <i class="fas fa-retweet"></i>
+        <span>8</span>
+      </div>
+      <div class="tweet-action">
+        <i class="far fa-heart"></i>
+        <span>89</span>
+      </div>
+      <div class="tweet-action">
+        <i class="fas fa-share"></i>
+      </div>
+    </div>
   </div>
 </div>
+
 {% endblock %}
