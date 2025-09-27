@@ -166,37 +166,49 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const currentPath = window.location.pathname;
     document.querySelectorAll('.menu-item').forEach(item => {
-        if (item.getAttribute('data-href') === currentPath)  {
-            item.classList.add('active');
-        }
-        else{
-            if (String(item.getAttribute('data-href')).includes('/user/') && currentPath.includes('/user/') ){
-                item.classList.add('active');
-            }
-            else{
-                item.classList.remove('active');
-            }
+        // if (item.getAttribute('data-href') === currentPath)  {
+        //     item.classList.add('active');
+        // }
+        // else{
+        //     if (String(item.getAttribute('data-href')).includes('/user/') && currentPath.includes('/user/') ){
+        //         item.classList.add('active');
+        //     }
+        //     else{
+        //         item.classList.remove('active');
+        //     }
             
-        }
+        // }
 
         item.addEventListener('click', function() {
 
-        const url = this.getAttribute('data-href');
-        if (url) {
-            if (url === '/user/'){
-                window.location.href = url + '0';
+            const url = this.getAttribute('data-href');
+            if (url) {
+                if (url === '/user/'){
+                    window.location.href = url + '0';
+                }
+                else{
+                    window.location.href = url;
+                }
             }
-            else{
-                window.location.href = url;
-            }
-        }
-        console.log('item', item, 'this', this)
-    })
+            console.log('item', item, 'this', this)
+        })
 
     });
 
      // При загрузке страницы определяем активный пункт меню по URL
     // const currentPath = window.location.pathname;
+    
+    // menu_items = document.querySelectorAll('.menu-item')
+    // page_name = document.querySelector('.section-title').dataset.name
+    // menu_items.forEach(menu => {
+    //     if (page_name === menu.name){
+    //         menu.classList.add('active');
+    //         console.log(menu)
+    //     } else {
+    //         menu.classList.remove('active')
+    //     }
+        
+    // })
     
 
    

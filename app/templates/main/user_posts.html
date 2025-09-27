@@ -1,0 +1,42 @@
+{% extends 'main/base.html' %}
+
+
+{% block title %}
+Мои посты
+{% endblock%}
+
+{% block main %}
+<div class="tweet">
+  <div class="tweet-header">
+    <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Анна Сидорова" class="tweet-avatar">
+    <div class="tweet-user-info">
+      <span class="tweet-username">Анна Сидорова</span>
+      <span class="tweet-usertag">@annasidorova</span>
+      <span class="tweet-time">· 5 ч назад</span>
+    </div>
+    <button class="tweet-more-options" aria-label="Дополнительные опции">···</button>
+  </div>
+  
+  <div class="tweet-content">
+    <p>Только что попробовала новый рецепт пирога - получилось невероятно вкусно! 🍰 Кто хочет рецепт?</p>
+  </div>
+  
+  <div class="tweet-footer">
+    <button class="tweet-action" aria-label="Комментировать">
+      <i class="far fa-comment"></i>
+      <span>42</span>
+    </button>
+    <button class="tweet-action" aria-label="Ретвитнуть">
+      <i class="fas fa-retweet"></i>
+      <span>8</span>
+    </button>
+    <button class="tweet-action" aria-label="Лайкнуть">
+      <i class="far fa-heart"></i>
+      <span>89</span>
+    </button>
+    <button class="tweet-action" aria-label="Поделиться">
+      <i class="fas fa-share"></i>
+    </button>
+  </div>
+</div>
+{% endblock %}

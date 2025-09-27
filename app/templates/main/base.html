@@ -14,7 +14,7 @@
         <div class="sidebar">
             <div class="section-title">Меню</div>
 
-            <div class="menu-item active" data-href="{{ url_for('main.index') }}">
+            <div class="menu-item {% if active_page == 'main' %}active{% endif %}" name="main" data-href="{{ url_for('main.index') }}">
                 <a href="{{ url_for('main.index') }}" class="menu-link"></a>
                 <i class="fas fa-home"></i>
                 <span>Главная</span>
@@ -31,12 +31,12 @@
                 <i class="fas fa-heart"></i>
                 <span>Нравится</span>
             </div>
-            <div class="menu-item">
+            <div class="menu-item {% if active_page == 'my_posts' %}active{% endif %}" data-href="{{ url_for('post.user_posts', id=current_user.id) }}">
                 <i class="fas fa-file-alt"></i>
                 <span>Мои посты</span>
             </div>
 
-            <div class="menu-item" data-href="{{ url_for('user.user_profil', id=current_user.id) }}">
+            <div class="menu-item {% if active_page == 'profile' %}active{% endif %}" data-href="{{ url_for('user.user_profil', id=current_user.id) }}">
                 <i class="fas fa-user"></i>
                 <span>Мой профиль</span>
             </div>
@@ -140,8 +140,9 @@
     {% include 'main/modal_post.html' %}
 
 
-<script src="{{ url_for('static', filename='js/base.js') }}"></script>
+
 
 {% block script %}{% endblock %}
+<script src="{{ url_for('static', filename='js/base.js') }}"></script>
 </body>
 </html>
