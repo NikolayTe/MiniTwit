@@ -9,4 +9,4 @@ def index():
     last_posts = Post.query.order_by(Post.created_at.desc()).limit(10).all()
 
     active_page = 'main'
-    return render_template("main/index.html", active_page=active_page, last_posts=last_posts)
+    return render_template("main/index.html", active_page=active_page, posts=last_posts)

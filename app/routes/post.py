@@ -24,4 +24,4 @@ def user_posts(id):
 
     user_posts = Post.query.filter_by(user_id=current_user.id).all()
 
-    return render_template('main/user_posts.html', active_page=active_page, user_posts=user_posts)
+    return render_template('main/index.html', active_page=active_page, posts=user_posts)

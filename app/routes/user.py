@@ -34,7 +34,15 @@ def user_profile_posts(id):
 
     user = User.query.get(id)
     user_data = user.get_user_data()
-    user_profile = True
-    return render_template('main/index.html', user_profile=user_profile, user=user_data)
+
+    if id == current_user.id:
+        user_profile = False
+        active_page = 'my_posts'
+    else:
+        user_profile = True
+        active_page = 'posts'
+
+    user_posts = user.posts
+    return render_template('main/index.html', user_profile=user_profile, user=user_data, posts=user_posts, active_page=active_page)
 
 

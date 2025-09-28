@@ -47,7 +47,7 @@
   {% endif %}
 
   <!-- Пост 1 -->
-   {% for post in last_posts%}
+   {% for post in posts%}
     <div class="tweet">
       <div class="tweet-header">
         <a href="{{ url_for('user.user_profile_posts', id=post.user.id) }}" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
@@ -57,8 +57,8 @@
             <span class="tweet-usertag">@{{ post.user.username }}</span>
             <span class="tweet-time">· {{ post.created_at.strftime('%H:%M  %d.%m.%Y') }}</span>
           </div>
-          <div class="tweet-more-options">···</div>
         </a>
+        <div class="tweet-more-options">···</div>
       </div>
       <div class="tweet-content">
         <p>{{ post.content }}</p>
@@ -85,6 +85,7 @@
       </div>
     </div>
   {% endfor %}
+
 
   <!-- Пост 2 -->
   <div class="tweet">
