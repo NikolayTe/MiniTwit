@@ -16,11 +16,11 @@
   {% for post in user_posts %}
     <div class="tweet">
       <div class="tweet-header">
-        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="tweet-avatar">
+        <img src="https://russian.people.com.cn/NMediaFile/2024/0408/FOREIGN1712567381216Q9C7PEHJ8A.jpg" alt="User" class="tweet-avatar">
         <div class="tweet-user-info">
           <span class="tweet-username">{{ post.user.displayName }}</span>
           <span class="tweet-usertag">@{{ post.user.username }}</span>
-          <span class="tweet-time">{{ post.created_at.strftime('%d.%m.%Y %H:%M')  }}</span>
+          <span class="tweet-time">· {{ post.created_at.strftime('%H:%M  %d.%m.%Y')}}</span>
         </div>
         <div class="tweet-more-options">···</div>
       </div>
@@ -49,32 +49,36 @@
       </div>
     </div>
   {% endfor %}
-  <!-- Пост 2 -->
+  
+  <!-- Пост 1 -->
   <div class="tweet">
     <div class="tweet-header">
-      <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="User" class="tweet-avatar">
+      <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="tweet-avatar">
       <div class="tweet-user-info">
-        <span class="tweet-username">Анна Сидорова</span>
-        <span class="tweet-usertag">@annasidorova</span>
-        <span class="tweet-time">· 5 ч назад</span>
+        <span class="tweet-username">Иван Петров</span>
+        <span class="tweet-usertag">@ivanpetrov</span>
+        <span class="tweet-time">· 2 ч назад</span>
       </div>
       <div class="tweet-more-options">···</div>
     </div>
     <div class="tweet-content">
-      <p>Только что попробовала новый рецепт пирога - получилось невероятно вкусно! 🍰 Кто хочет рецепт?</p>
+      <p>Сегодня прекрасный день для кодинга! Только что закончил новый проект на Flask. #программирование #webdev</p>
+      <div class="tweet-image">
+        <img src="https://source.unsplash.com/random/600x300/?coding" alt="Tweet image">
+      </div>
     </div>
     <div class="tweet-footer">
       <div class="tweet-action">
         <i class="far fa-comment"></i>
-        <span>42</span>
+        <span>24</span>
       </div>
       <div class="tweet-action">
         <i class="fas fa-retweet"></i>
-        <span>8</span>
+        <span>12</span>
       </div>
       <div class="tweet-action">
         <i class="far fa-heart"></i>
-        <span>89</span>
+        <span>156</span>
       </div>
       <div class="tweet-action">
         <i class="fas fa-share"></i>

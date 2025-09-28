@@ -13,40 +13,42 @@
 {% block main %}
 <div class="twitter-style-posts">
   <!-- Пост 1 -->
-  <div class="tweet">
-    <div class="tweet-header">
-      <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="tweet-avatar">
-      <div class="tweet-user-info">
-        <span class="tweet-username">Иван Петров</span>
-        <span class="tweet-usertag">@ivanpetrov</span>
-        <span class="tweet-time">· 2 ч назад</span>
+   {% for post in last_posts%}
+    <div class="tweet">
+      <div class="tweet-header">
+        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="tweet-avatar">
+        <div class="tweet-user-info">
+          <span class="tweet-username">{{ post.user.displayName }}</span>
+          <span class="tweet-usertag">@{{ post.user.username }}</span>
+          <span class="tweet-time">· {{ post.created_at.strftime('%H:%M  %d.%m.%Y') }}</span>
+        </div>
+        <div class="tweet-more-options">···</div>
       </div>
-      <div class="tweet-more-options">···</div>
+      <div class="tweet-content">
+        <p>{{ post.content }}</p>
+        <!-- <div class="tweet-image">
+          <img src="https://source.unsplash.com/random/600x300/?coding" alt="Tweet image">
+        </div> -->
+      </div>
+      <div class="tweet-footer">
+        <div class="tweet-action">
+          <i class="far fa-comment"></i>
+          <span>{{ post.replies_count }}</span>
+        </div>
+        <div class="tweet-action">
+          <i class="fas fa-retweet"></i>
+          <span>12</span>
+        </div>
+        <div class="tweet-action">
+          <i class="far fa-heart"></i>
+          <span>{{ post.likes_count }}</span>
+        </div>
+        <div class="tweet-action">
+          <i class="fas fa-share"></i>
+        </div>
+      </div>
     </div>
-    <div class="tweet-content">
-      <p>Сегодня прекрасный день для кодинга! Только что закончил новый проект на Flask. #программирование #webdev</p>
-      <div class="tweet-image">
-        <img src="https://source.unsplash.com/random/600x300/?coding" alt="Tweet image">
-      </div>
-    </div>
-    <div class="tweet-footer">
-      <div class="tweet-action">
-        <i class="far fa-comment"></i>
-        <span>24</span>
-      </div>
-      <div class="tweet-action">
-        <i class="fas fa-retweet"></i>
-        <span>12</span>
-      </div>
-      <div class="tweet-action">
-        <i class="far fa-heart"></i>
-        <span>156</span>
-      </div>
-      <div class="tweet-action">
-        <i class="fas fa-share"></i>
-      </div>
-    </div>
-  </div>
+  {% endfor %}
 
   <!-- Пост 2 -->
   <div class="tweet">
