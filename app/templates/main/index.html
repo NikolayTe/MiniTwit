@@ -48,7 +48,7 @@
 
   <!-- Пост 1 -->
    {% for post in posts%}
-    <div class="tweet">
+    <div class="tweet" id="{{ post.id }}">
       <div class="tweet-header">
         <a href="{{ url_for('user.user_profile_posts', id=post.user.id) }}" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
           <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="tweet-avatar">
@@ -76,8 +76,14 @@
           <span>12</span>
         </div>
         <div class="tweet-action">
-          <i class="far fa-heart"></i>
-          <span>{{ post.likes_count }}</span>
+          {% set user_like = post.likes|selectattr("user_id", "equalto", current_user.id)|list %}
+          {% if user_like %}
+            <i class="fas fa-heart" style="color: red;"></i>
+          {% else %}
+            <i class="far fa-heart"></i>
+          {% endif %}
+          
+          <span>{{ post.likes|length }}</span>
         </div>
         <div class="tweet-action">
           <i class="fas fa-share"></i>
@@ -122,3 +128,5 @@
 </div>
 
 {% endblock %}
+
+{% block script %}<script src="{{ url_for('static', filename='js/index.js') }}"></script>{% endblock %}

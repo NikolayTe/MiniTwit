@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from ..extensions import db
 from ..models.user import User, check_user_from_db
-from ..models.post import Post
+from ..models.post import Post, PostLike
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -127,3 +127,46 @@ def new_post():
     print("OK new post", request.json)
 
     return jsonify({'success': True, 'message': 'The post has been published!'})
+
+
+# Проверяю ставил ли пользователь лайк
+def is_post_liked_by_user(post_id, user_id):
+    like = PostLike.query.filter_by(
+        post_id=post_id, 
+        user_id=user_id
+    ).first()
+    
+    return like is not None
+
+# Считаю количество лайков у поста
+def count_post_likes(post_id):
+    count = PostLike.query.filter_by(post_id=post_id).count()
+
+    return count
+
+@api.route('/api/post/<int:post_id>/like', methods=['POST'])
+def like_action(post_id):
+    try:
+        # Проверяю стоит ли лайк
+        is_like = is_post_liked_by_user(post_id, current_user.id)
+        if is_like:
+            like = PostLike.query.filter_by(post_id=post_id, user_id=current_user.id).first()
+            db.session.delete(like)
+            db.session.commit()
+            is_like = False
+        else:
+            like = PostLike(user_id=current_user.id, post_id=post_id)
+
+            db.session.add(like)
+            db.session.commit()
+            is_like = True
+
+        count_likes = count_post_likes(post_id)
+
+        print({'success': True, 'count_likes': count_likes, 'is_like': is_like})
+
+    except Exception as ex:
+        print('Error', ex)
+        return jsonify({'success': False, 'message': "Unknown error!", 'error': ex})
+                       
+    return jsonify({'success': True, 'count_likes': count_likes, 'is_like': is_like})
