@@ -111,6 +111,19 @@ def edit_profile(id):
 @api.route('/api/new_post', methods=['POST'])
 @login_required
 def new_post():
+    content = request.json.get('text')
+    if content == '':
+        return jsonify({'success': False, 'message': 'The post can"t been empty!'})
+    
+    try:
+        
+        new_post = Post(user_id=current_user.id, content=request.json.get('text'))
+        db.session.add(new_post)
+        db.session.commit()
+
+    except Exception as ex:
+        return jsonify({'success': False, 'message': f'Unknown error!\n{ex}'})
+
     print("OK new post", request.json)
 
     return jsonify({'success': True, 'message': 'The post has been published!'})
