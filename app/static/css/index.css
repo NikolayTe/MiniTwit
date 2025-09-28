@@ -130,3 +130,65 @@
 .fa-heart {
   transition: color 0.2s;
 }
+
+
+/* Формочка пользователя */
+.user-profile-card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #e0e0e0;
+}
+
+.user-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 16px 0;
+  padding: 12px 0;
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-weight: bold;
+  font-size: 18px;
+  color: #000;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #666;
+}
+
+.user-bio {
+  margin: 12px 0;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.subscribe-section {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.subscribe-btn {
+  background: #1da1f2;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.subscribe-btn:hover {
+  background: #1a91da;
+}

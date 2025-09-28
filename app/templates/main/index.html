@@ -11,18 +11,54 @@
 
 
 {% block main %}
+
 <div class="twitter-style-posts">
+  <!-- Провиль пользователя -->
+  {% if user_profile %}
+  <div class="user-profile-card">
+    <div class="tweet-header">
+      <img src="https://russian.people.com.cn/NMediaFile/2024/0408/FOREIGN1712567381216Q9C7PEHJ8A.jpg" alt="User" class="tweet-avatar">
+      <div class="tweet-user-info">
+        <span class="tweet-username">{{ user.displayName }}</span>
+        <span class="tweet-usertag">@{{ user.username }}</span>
+      </div>
+    </div>
+    <div class="user-stats">
+      <div class="stat">
+        <span class="stat-number">156</span>
+        <span class="stat-label">постов</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">1.2K</span>
+        <span class="stat-label">подписчиков</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">245</span>
+        <span class="stat-label">подписок</span>
+      </div>
+    </div>
+    <div class="user-bio">
+      <p>{{ user.bio }}</p>
+    </div>
+    <div class="subscribe-section">
+      <button class="subscribe-btn">Подписаться</button>
+    </div>
+  </div>
+  {% endif %}
+
   <!-- Пост 1 -->
    {% for post in last_posts%}
     <div class="tweet">
       <div class="tweet-header">
-        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="tweet-avatar">
-        <div class="tweet-user-info">
-          <span class="tweet-username">{{ post.user.displayName }}</span>
-          <span class="tweet-usertag">@{{ post.user.username }}</span>
-          <span class="tweet-time">· {{ post.created_at.strftime('%H:%M  %d.%m.%Y') }}</span>
-        </div>
-        <div class="tweet-more-options">···</div>
+        <a href="{{ url_for('user.user_profile_posts', id=post.user.id) }}" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+          <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="tweet-avatar">
+          <div class="tweet-user-info">
+            <span class="tweet-username">{{ post.user.displayName }}</span>
+            <span class="tweet-usertag">@{{ post.user.username }}</span>
+            <span class="tweet-time">· {{ post.created_at.strftime('%H:%M  %d.%m.%Y') }}</span>
+          </div>
+          <div class="tweet-more-options">···</div>
+        </a>
       </div>
       <div class="tweet-content">
         <p>{{ post.content }}</p>

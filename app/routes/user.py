@@ -18,7 +18,7 @@ def my_login_required(func):
     return wrapper
 
 
-@user.route('/user/<id>', methods=['GET'])
+@user.route('/user/<int:id>', methods=['GET'])
 @my_login_required
 def user_profil(id):
     print('id', id)
@@ -27,5 +27,14 @@ def user_profil(id):
     user_data = user.get_user_data()
     active_page = 'profile'
     return render_template("main/profil.html", user=user_data, active_page=active_page)
+
+
+@user.route('/user/<int:id>/profile_posts')
+def user_profile_posts(id):
+
+    user = User.query.get(id)
+    user_data = user.get_user_data()
+    user_profile = True
+    return render_template('main/index.html', user_profile=user_profile, user=user_data)
 
 
