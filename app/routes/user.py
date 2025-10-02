@@ -52,3 +52,18 @@ def user_profile_posts(id):
     return render_template('main/index.html', user_profile=user_profile, user=user_data, posts=user_posts, active_page=active_page, is_subscribe=is_subscribe)
 
 
+@user.route('/user/<int:id>/likes', methods=['GET'])
+@my_login_required
+def user_likes(id):
+
+    if current_user.id != id:
+        return render_template('/main/custom_index.html', message='Можно посмотреть только свои лайки!')
+
+    user = User.query.get(id)
+    posts = [like.post for like in user.likes]
+
+    user_profile = False
+    active_page = 'likes'
+    return render_template('main/index.html', user_profile=user_profile, posts=posts, active_page=active_page)
+
+

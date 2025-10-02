@@ -27,7 +27,7 @@
                 <i class="fas fa-star"></i>
                 <span>Избранное</span>
             </div>
-            <div class="menu-item">
+            <div class="menu-item {% if active_page == 'likes' %}active{% endif %}" name="likes" data-href="{{ url_for('user.user_likes', id=current_user.id) }}">
                 <i class="fas fa-heart"></i>
                 <span>Нравится</span>
             </div>
