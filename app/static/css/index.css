@@ -147,8 +147,10 @@
   justify-content: space-around;
   margin: 16px 0;
   padding: 12px 0;
-  border-top: 1px solid #f0f0f0;
-  border-bottom: 1px solid #f0f0f0;
+  /* border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0; */
+  background: #f8f9fa;
+  border-radius: 8px;
 }
 
 .stat {
@@ -159,7 +161,8 @@
   display: block;
   font-weight: bold;
   font-size: 18px;
-  color: #000;
+  /* color: #000; */
+  color: #1877f2;
 }
 
 .stat-label {

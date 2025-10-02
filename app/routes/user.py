@@ -26,6 +26,8 @@ def user_profil(id):
     user = User.query.get(id)
     user_data = user.get_user_data()
     active_page = 'profile'
+
+
     return render_template("main/profil.html", user=user_data, active_page=active_page)
 
 
