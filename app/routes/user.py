@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 from ..extensions import db
-from ..models.user import User
+from ..models.user import User, Subscriber
 from flask_login import login_user, logout_user, current_user, login_required
 from functools import wraps
 
@@ -37,14 +37,18 @@ def user_profile_posts(id):
     user = User.query.get(id)
     user_data = user.get_user_data()
 
+    is_subscribe = None
     if id == current_user.id:
         user_profile = False
         active_page = 'my_posts'
     else:
         user_profile = True
         active_page = 'posts'
+        # Проверяю подписку
+        is_subscribe = Subscriber.is_subscribe(subscriber_id=current_user.id, user_id=id)
+        print(active_page)
 
     user_posts = user.posts
-    return render_template('main/index.html', user_profile=user_profile, user=user_data, posts=user_posts, active_page=active_page)
+    return render_template('main/index.html', user_profile=user_profile, user=user_data, posts=user_posts, active_page=active_page, is_subscribe=is_subscribe)
 
 

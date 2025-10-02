@@ -77,11 +77,48 @@ class Subscriber(db.Model):
     user = db.relationship('User', foreign_keys=[user_id], backref='subscribers') # Возвращает всех кто подписан на user_id
     subscriber = db.relationship('User', foreign_keys=[user_id_subscriber], backref='subscriptions') # Возвращает всех на кого подписан user_id
 
+    # Constraints
+    __table_args__ = (
+        # Уникальная подписка - нельзя подписаться дважды
+        db.UniqueConstraint('user_id', 'user_id_subscriber', name='unique_subscription'),
+        
+        # Нельзя подписаться на самого себя
+        db.CheckConstraint('user_id != user_id_subscriber', name='no_self_subscription')
+    )
  
     # Проверяю подписан ли subscriber_id на user_id
     @classmethod
     def is_subscribe(cls, subscriber_id, user_id):
         return cls.query.filter_by(user_id=user_id, user_id_subscriber=subscriber_id).first() is not None
+    
+    # Подписка/отписка
+    @classmethod
+    def subscribe(cls, subscriber_id, user_id):
+        if subscriber_id == user_id:
+            return {'success': False, 'error': 'Cannot subscribe to yourself'}
+        
+        try:
+            # Если подписан то отписка, если нет то подписаться
+            if cls.is_subscribe(subscriber_id, user_id):
+                subscription = cls.query.filter_by(user_id_subscriber=subscriber_id, user_id=user_id).first()
+                db.session.delete(subscription)
+                db.session.commit()
+                return {'success': True, 'subscribed': False,  'message': 'Successful unsubscribe!'}
+            
+            else:
+                subscription = cls(user_id_subscriber=subscriber_id, user_id=user_id)
+                db.session.add(subscription)
+                db.session.commit()
+                return {'success': True, 'subscribed': True,  'message': 'Successful subscribe!'}
+            
+        except Exception as ex:
+            db.session.rollback()
+            return {'success': False, 'error': ex}
+    
+
+        
+
+
     
 
 

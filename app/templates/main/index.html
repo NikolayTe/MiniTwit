@@ -15,7 +15,7 @@
 <div class="twitter-style-posts">
   <!-- Провиль пользователя -->
   {% if user_profile %}
-  <div class="user-profile-card">
+  <div class="user-profile-card" id="{{user.id}}">
     <div class="tweet-header">
       <img src="https://russian.people.com.cn/NMediaFile/2024/0408/FOREIGN1712567381216Q9C7PEHJ8A.jpg" alt="User" class="tweet-avatar">
       <div class="tweet-user-info">
@@ -29,7 +29,7 @@
         <span class="stat-label">Постов</span>
       </div>
       <div class="stat">
-        <span class="stat-number">{{user.count_subscribers}}</span>
+        <span class="stat-number" name="count_subscribers">{{user.count_subscribers}}</span>
         <span class="stat-label">Подписчиков</span>
       </div>
       <div class="stat">
@@ -37,7 +37,7 @@
         <span class="stat-label">Подписок</span>
       </div>
       <div class="stat">
-        <span class="stat-number">{{user.count_likes}}</span>
+        <span class="stat-number" name="count_likes">{{user.count_likes}}</span>
         <span class="stat-label">Лайков</span>
       </div>
     </div>
@@ -45,7 +45,7 @@
       <p>{{ user.bio }}</p>
     </div>
     <div class="subscribe-section">
-      <button class="subscribe-btn">Подписаться</button>
+      <button class="subscribe-btn {% if is_subscribe %}subscribed{% endif %}">{% if is_subscribe %}Подписан{% else %}Подписаться{% endif %}</button>
     </div>
   </div>
   {% endif %}

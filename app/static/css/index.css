@@ -196,3 +196,11 @@
 .subscribe-btn:hover {
   background: #1a91da;
 }
+
+.subscribe-btn.subscribed {
+    background: #657786;
+    color: white;
+}
+.subscribe-btn.subscribed:hover {
+    background: #536471;
+}

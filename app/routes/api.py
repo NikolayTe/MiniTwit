@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from ..extensions import db
-from ..models.user import User, check_user_from_db
+from ..models.user import User, check_user_from_db, Subscriber
 from ..models.post import Post, PostLike
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
@@ -170,3 +170,21 @@ def like_action(post_id):
         return jsonify({'success': False, 'message': "Unknown error!", 'error': ex})
                        
     return jsonify({'success': True, 'count_likes': count_likes, 'is_like': is_like})
+
+
+@api.route('/api/subscribe/<int:user_id>', methods=['POST'])
+@login_required
+def subscribe(user_id):
+    try:
+        result = Subscriber.subscribe(current_user.id, user_id=user_id)
+
+        if result.get('success'):
+            user = User.query.get(user_id)
+            count_subscribers = user.get_user_data().get('count_subscribers')
+            result['count_subscribers'] = count_subscribers
+
+        return jsonify(result)
+    
+    except Exception as ex:
+        return jsonify({'success': False, 'message': ex, 'error': ex}) 
+
