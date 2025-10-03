@@ -2,7 +2,7 @@ from ..extensions import db, login_manager
 from datetime import date
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from .post import PostLike, Post
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -38,7 +38,11 @@ class User(db.Model, UserMixin):
         count_subscribers = len(self.subscribers)
         count_subscriptions = len(self.subscriptions)
         count_posts = len(self.posts)
-        count_likes = len(self.likes)
+
+        count_likes = 0
+        user_posts = Post.query.filter_by(user_id=self.id)
+        for post in user_posts:
+            count_likes += PostLike.count_likes_post(post_id=post.id)
 
         return { 'id': self.id,
                 'username': self.username,

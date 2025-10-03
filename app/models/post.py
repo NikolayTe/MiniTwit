@@ -1,6 +1,5 @@
 from ..extensions import db
 from datetime import datetime
-from .user import User
 
 class Post(db.Model):
     __tablename__ = 'posts'
@@ -43,6 +42,10 @@ class PostLike(db.Model):
     __table_args__ = (
         db.UniqueConstraint('user_id', 'post_id', name='unique_user_post_like'),
     )
+
+    @classmethod
+    def count_likes_post(cls, post_id):
+        return len(cls.query.filter_by(post_id=post_id).all())
     
     def __repr__(self):
         return f'<Like user:{self.user_id} post:{self.post_id}>'
