@@ -41,7 +41,7 @@ btn_likes.forEach(btn => {
                 console.log('Результат:', result);
 
             } else {
-                alert('Ошибка при лайке: ' + response.status);
+                alert('Ошибка при лайке: ' + response.message);
             }
         } catch (error) {
             console.error('Ошибка:', error);
@@ -85,7 +85,7 @@ btn_subscribe.addEventListener('click', async function() {
             console.log('Результат:', result);
 
         } else {
-            alert('Ошибка при подписке: ' + response.status);
+            alert('Ошибка при подписке. Вы точно авторизованы? ' + response.status);
         }
     } catch (error) {
         console.error('Ошибка:', error);

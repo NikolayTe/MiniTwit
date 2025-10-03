@@ -182,14 +182,15 @@ document.addEventListener('DOMContentLoaded', function() {
         item.addEventListener('click', function() {
 
             const url = this.getAttribute('data-href');
-            if (url) {
-                if (url === '/user/'){
-                    window.location.href = url + '0';
-                }
-                else{
-                    window.location.href = url;
-                }
-            }
+            window.location.href = url;
+            // if (url) {
+            //     if (url === '/user/'){
+            //         window.location.href = url + '1';
+            //     }
+            //     else{
+            //         window.location.href = url;
+            //     }
+            // }
             console.log('item', item, 'this', this)
         })
 

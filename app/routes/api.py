@@ -146,6 +146,10 @@ def count_post_likes(post_id):
 
 @api.route('/api/post/<int:post_id>/like', methods=['POST'])
 def like_action(post_id):
+
+    if not current_user.is_authenticated:
+        return jsonify({'success': False, 'message': "Пожалуйста авторизуйтесь!"})
+    
     try:
         # Проверяю стоит ли лайк
         is_like = is_post_liked_by_user(post_id, current_user.id)
@@ -173,8 +177,10 @@ def like_action(post_id):
 
 
 @api.route('/api/subscribe/<int:user_id>', methods=['POST'])
-@login_required
 def subscribe(user_id):
+    if not current_user.is_authenticated:
+        return jsonify({'success': False, 'message': "Пожалуйста авторизуйтесь!"})
+    
     try:
         result = Subscriber.subscribe(current_user.id, user_id=user_id)
 
@@ -218,7 +224,7 @@ def get_subsribers_list(id):
             subscriber_list = dict(id=subscriber_id, username=username, handle=handle, avatar=avatar, isSubscribed=isSubscribed)
             print(subscriber_list)
             subscribers_list.append(subscriber_list)
-        sleep(0.8)
+        sleep(1)
         return jsonify({'success': True, 'subscribers_list': subscribers_list})
 
     except Exception as ex:

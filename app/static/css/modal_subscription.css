@@ -225,3 +225,25 @@
     font-size: 14px;
     color: #657786;
 }
+.ds-user-link {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    text-decoration: none;
+    color: inherit;
+}
+
+.ds-avatar-link {
+    text-decoration: none;
+    margin-right: 12px;
+}
+
+.ds-user-info-link {
+    text-decoration: none;
+    color: inherit;
+    flex-grow: 1;
+}
+
+.ds-user-info-link:hover .ds-username {
+    color: #1da1f2;
+}

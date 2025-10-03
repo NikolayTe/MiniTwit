@@ -21,7 +21,6 @@ if(!parent_div_subsribers){
 }
 
 
-
 // Данные подписок (в реальном приложении будут приходить с сервера)
 const dsSubscriptionsData = [
     { id: 1, username: "Алексей Иванов", handle: "@alexey", avatar: null, isSubscribed: true },
@@ -38,7 +37,7 @@ async function dsLoadSubscriptions(user_id) {
     list.innerHTML = `
         <div class="ds-loading-spinner">
             <div class="ds-spinner"></div>
-            <div class="ds-loading-text">Загружаем подписчиков...</div>
+            <div class="ds-loading-text">Загружаем подписки...<br>Исскуственная задержка</div>
         </div>
     `;
     try {
@@ -63,26 +62,25 @@ async function dsLoadSubscriptions(user_id) {
                 }
                 list.innerHTML = dsSubscriptionsData.map(user => `
                     <div class="ds-subscription-item">
-                        <div class="ds-avatar">
-                            ${user.avatar ? 
-                                `<img src="${user.avatar}" alt="${user.username}">` : 
-                                user.username.charAt(0)
-                            }
-                        </div>
-                        <div class="ds-user-info">
-                            <div class="ds-username">${user.username}</div>
-                            <div class="ds-user-handle">@${user.handle}</div>
-                        </div>
+                        <a href="/user/${user.id}/profile_posts" class="ds-user-link">
+                            <div class="ds-avatar">
+                                ${user.avatar ? 
+                                    `<img src="${user.avatar}" alt="${user.username}">` : 
+                                    user.username.charAt(0)
+                                }
+                            </div>
+                            <div class="ds-user-info">
+                                <div class="ds-username">${user.username}</div>
+                                <div class="ds-user-handle">@${user.handle}</div>
+                            </div>
+                        </a>
                         <button class="ds-subscribe-btn ${user.isSubscribed ? 'ds-subscribed' : ''}" 
                                 onclick="dsToggleSubscription(this, ${user.id})">
                             ${user.isSubscribed ? 'Подписан' : 'Подписаться'}
                         </button>
                     </div>
                 `).join('');
-
-
             }
-            
             else {
                 alert(result.message); 
             }
