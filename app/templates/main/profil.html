@@ -11,7 +11,7 @@
 
 
 {% block main %}
-<div class="profile-container">
+<div class="profile-container" id="{{user.id}}">
         <div class="profile-header">
             <h1 class="profile-title">Мой профиль</h1>
         </div>
@@ -29,8 +29,8 @@
                 <div class="stat-number">{{user.count_posts}}</div>
                 <div class="stat-label">Постов</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">{{user.count_subscribers}}</div>
+            <div class="stat-item pointer">
+                <div class="stat-number" name="count_subscribers">{{user.count_subscribers}}</div>
                 <div class="stat-label">Подписчиков</div>
             </div>
             <div class="stat-item">

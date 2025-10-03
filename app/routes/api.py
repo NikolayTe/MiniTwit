@@ -4,7 +4,7 @@ from ..models.user import User, check_user_from_db, Subscriber
 from ..models.post import Post, PostLike
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
-
+from time import sleep
 
 api = Blueprint('api', __name__)
 
@@ -103,7 +103,7 @@ def edit_profile(id):
 
 
     except Exception as ex:
-        return jsonify({'success': False, 'message': ex})
+        return jsonify({'success': False, 'message': str(ex)})
 
     return jsonify({'success': True, 'message': 'The profile has been edited!'})
 
@@ -167,7 +167,7 @@ def like_action(post_id):
 
     except Exception as ex:
         print('Error', ex)
-        return jsonify({'success': False, 'message': "Unknown error!", 'error': ex})
+        return jsonify({'success': False, 'message': "Unknown error!", 'error': str(ex)})
                        
     return jsonify({'success': True, 'count_likes': count_likes, 'is_like': is_like})
 
@@ -186,5 +186,43 @@ def subscribe(user_id):
         return jsonify(result)
     
     except Exception as ex:
-        return jsonify({'success': False, 'message': ex, 'error': ex}) 
+        return jsonify({'success': False, 'message': str(ex), 'error': str(ex)}) 
 
+
+
+@api.route('/api/get_subsribers_list/<int:id>', methods=['GET'])
+def get_subsribers_list(id):
+
+    #   [{ id: 1, username: "Алексей Иванов", handle: "@alexey", avatar: null, isSubscribed: true }]
+    
+    try:
+        subscribers_list = []
+        user = User.query.get(id)
+        subscribers = user.subscribers
+
+        for item in subscribers:
+            subscriber_list = dict()
+
+            subscriber_id = item.user_id_subscriber
+            subscriber_user = User.query.get(subscriber_id).get_user_data()
+
+            username = subscriber_user.get('displayName')
+            handle = subscriber_user.get('username')
+            avatar = subscriber_user.get('avatar_path')
+            
+            if current_user.is_authenticated:
+                isSubscribed = Subscriber.is_subscribe(current_user.id, subscriber_id)
+            else:
+                isSubscribed = False
+
+            subscriber_list = dict(id=subscriber_id, username=username, handle=handle, avatar=avatar, isSubscribed=isSubscribed)
+            print(subscriber_list)
+            subscribers_list.append(subscriber_list)
+        sleep(0.8)
+        return jsonify({'success': True, 'subscribers_list': subscribers_list})
+
+    except Exception as ex:
+        print(ex)
+        return jsonify({'success': False, 'message': str(ex), 'error': str(ex)}) 
+    
+    

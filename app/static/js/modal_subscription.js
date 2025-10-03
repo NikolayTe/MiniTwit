@@ -1,0 +1,141 @@
+// Добавляю ссылки на дивы с подписчиками/подписками
+div_subsribers = document.querySelector('[name="count_subscribers"]');
+
+parent_div_subsribers = div_subsribers.closest('.stat');
+
+// Для страницы профиля и для index
+if(!parent_div_subsribers){
+
+    parent_div_subsribers = div_subsribers.closest('.stat-item');
+    parent_div_subsribers.addEventListener('click', function(){
+    user_id = parent_div_subsribers.closest('.profile-container').id;
+    dsOpenSubscriptionsModal(user_id);
+});
+
+}else{
+    parent_div_subsribers.addEventListener('click', function(){
+    console.log('Open modal_subsription');
+    user_id = parent_div_subsribers.closest('.user-profile-card').id;
+    dsOpenSubscriptionsModal(user_id);
+});
+}
+
+
+
+// Данные подписок (в реальном приложении будут приходить с сервера)
+const dsSubscriptionsData = [
+    { id: 1, username: "Алексей Иванов", handle: "@alexey", avatar: null, isSubscribed: true },
+    { id: 2, username: "Мария Петрова", handle: "@maria", avatar: null, isSubscribed: true },
+    { id: 3, username: "Дмитрий Сидоров", handle: "@dmitry", avatar: null, isSubscribed: true },
+    { id: 4, username: "Елена Козлова", handle: "@elena", avatar: null, isSubscribed: true },
+    { id: 5, username: "Сергей Николаев", handle: "@sergey", avatar: null, isSubscribed: true }
+];
+
+async function dsLoadSubscriptions(user_id) {
+    console.log('dsLoadSubscriptions', user_id)
+    const list = document.getElementById('dsSubscriptionsList');
+    // Красивый loading
+    list.innerHTML = `
+        <div class="ds-loading-spinner">
+            <div class="ds-spinner"></div>
+            <div class="ds-loading-text">Загружаем подписчиков...</div>
+        </div>
+    `;
+    try {
+        const response = await fetch(`/api/get_subsribers_list/${user_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            if (result.success) {
+                console.log(result)
+
+                console.log('result.subscribers_list', result.subscribers_list)
+                const dsSubscriptionsData = result.subscribers_list
+                
+                if (dsSubscriptionsData.length === 0) {
+                    list.innerHTML = '<div class="ds-empty-state">Подписчиков нет(</div>';
+                    return;
+                }
+                list.innerHTML = dsSubscriptionsData.map(user => `
+                    <div class="ds-subscription-item">
+                        <div class="ds-avatar">
+                            ${user.avatar ? 
+                                `<img src="${user.avatar}" alt="${user.username}">` : 
+                                user.username.charAt(0)
+                            }
+                        </div>
+                        <div class="ds-user-info">
+                            <div class="ds-username">${user.username}</div>
+                            <div class="ds-user-handle">@${user.handle}</div>
+                        </div>
+                        <button class="ds-subscribe-btn ${user.isSubscribed ? 'ds-subscribed' : ''}" 
+                                onclick="dsToggleSubscription(this, ${user.id})">
+                            ${user.isSubscribed ? 'Подписан' : 'Подписаться'}
+                        </button>
+                    </div>
+                `).join('');
+
+
+            }
+            
+            else {
+                alert(result.message); 
+            }
+            console.log('Результат:', result);
+
+        } else {
+            alert('Ошибка при получении данных: ' + response.status);
+        }
+    } catch (error) {
+        console.error('Ошибка:', error);
+        alert('Произошла ошибка при получении данных');
+    }
+  
+}
+function dsToggleSubscription(button, userId) {
+    // Здесь будет AJAX запрос к серверу
+    const user = dsSubscriptionsData.find(u => u.id === userId);
+    if (user) {
+        user.isSubscribed = !user.isSubscribed;
+        
+        if (user.isSubscribed) {
+            button.classList.add('ds-subscribed');
+            button.textContent = 'Подписан';
+            console.log(`Подписались на пользователя ${userId}`);
+        } else {
+            button.classList.remove('ds-subscribed');
+            button.textContent = 'Подписаться';
+            console.log(`Отписались от пользователя ${userId}`);
+        }
+    }
+}
+function dsOpenSubscriptionsModal(user_id) {
+    const modal = document.getElementById('dsSubscriptionsModal');
+    modal.style.display = 'flex';
+    dsLoadSubscriptions(user_id);
+}
+function dsCloseSubscriptionsModal() {
+    const modal = document.getElementById('dsSubscriptionsModal');
+    modal.style.display = 'none';
+}
+// Закрытие модального окна при клике на затемненную область
+document.getElementById('dsSubscriptionsModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        dsCloseSubscriptionsModal();
+    }
+});
+// Закрытие по ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        dsCloseSubscriptionsModal();
+    }
+});
+// Инициализация
+document.addEventListener('DOMContentLoaded', function() {
+    // Можно предзагрузить данные при необходимости
+});

@@ -27,7 +27,7 @@
                 <i class="fas fa-star"></i>
                 <span>Избранное</span>
             </div>
-            <div class="menu-item {% if active_page == 'likes' %}active{% endif %}" name="likes" data-href="{{ url_for('user.user_likes', id=current_user.id) }}">
+            <div class="menu-item {% if active_page == 'likes' %}active{% endif %}" name="likes" data-href="{% if current_user.is_authenticated %}{{ url_for('user.user_likes', id=current_user.id) }}{% else %}{{ url_for('post.user_posts', id=0) }}{% endif %}">
                 <i class="fas fa-heart"></i>
                 <span>Нравится</span>
             </div>
@@ -138,7 +138,7 @@
     </div>
 
     {% include 'main/modal_post.html' %}
-
+    {% include 'main/modal_subscription.html' %}
 
 
 

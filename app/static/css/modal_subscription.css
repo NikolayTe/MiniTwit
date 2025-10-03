@@ -1,0 +1,227 @@
+/* Стиль для триггера открытия модального окна */
+.ds-subscriptions-trigger {
+    background: #1d9bf0;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 14px;
+}
+.ds-subscriptions-trigger:hover {
+    background: #0d8bd9;
+}
+/* Затемненный фон */
+.ds-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+/* Модальное окно */
+.ds-modal-content {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    animation: ds-modalAppear 0.3s ease;
+}
+@keyframes ds-modalAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+/* Заголовок модального окна */
+.ds-modal-header {
+    background: #1d9bf0;
+    color: white;
+    padding: 16px 20px;
+    text-align: center;
+    position: relative;
+}
+.ds-modal-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+.ds-close-btn {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+.ds-close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+/* Список подписок */
+.ds-subscriptions-list {
+    padding: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+.ds-subscription-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid #e6ecf0;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+.ds-subscription-item:hover {
+    background: #f7f9fa;
+}
+.ds-subscription-item:last-child {
+    border-bottom: none;
+}
+/* Аватар */
+.ds-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #1d9bf0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 12px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+.ds-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+/* Информация о пользователе */
+.ds-user-info {
+    flex-grow: 1;
+}
+.ds-username {
+    font-weight: bold;
+    color: #14171a;
+    margin-bottom: 2px;
+}
+.ds-user-handle {
+    color: #657786;
+    font-size: 14px;
+}
+/* Кнопка подписки */
+.ds-subscribe-btn {
+    background: #1d9bf0;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 12px;
+    min-width: 80px;
+}
+.ds-subscribe-btn:hover {
+    background: #0d8bd9;
+}
+.ds-subscribe-btn.ds-subscribed {
+    background: #657786;
+}
+.ds-subscribe-btn.ds-subscribed:hover {
+    background: #536471;
+}
+/* Состояние загрузки */
+.ds-loading {
+    text-align: center;
+    padding: 40px;
+    color: #657786;
+}
+.ds-empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #657786;
+}
+/* Адаптивность */
+@media (max-width: 480px) {
+    .ds-modal-content {
+        width: 95%;
+        margin: 10px;
+    }
+    
+    .ds-subscription-item {
+        padding: 10px 15px;
+    }
+    
+    .ds-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+/* Кастомный скроллбар */
+.ds-subscriptions-list::-webkit-scrollbar {
+    width: 6px;
+}
+.ds-subscriptions-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+.ds-subscriptions-list::-webkit-scrollbar-thumb {
+    background: #1d9bf0;
+    border-radius: 3px;
+}
+.ds-subscriptions-list::-webkit-scrollbar-thumb:hover {
+    background: #0d8bd9;
+}
+.ds-loading-spinner {
+    text-align: center;
+    padding: 40px;
+    color: #657786;
+}
+
+.ds-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e6ecf0;
+    border-top: 4px solid #1da1f2;
+    border-radius: 50%;
+    animation: ds-spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes ds-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.ds-loading-text {
+    font-size: 14px;
+    color: #657786;
+}

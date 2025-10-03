@@ -1,0 +1,33 @@
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/modal_subscription.css') }}">
+{% endblock %}
+
+<div id="dsSubscriptionsModal" class="ds-modal-overlay" style="display: none;">
+        <div class="ds-modal-content">
+            <div class="ds-modal-header">
+                <div class="ds-modal-title">Подписчики</div>
+                <button class="ds-close-btn" onclick="dsCloseSubscriptionsModal()">×</button>
+            </div>
+            
+            <div class="ds-subscriptions-list" id="dsSubscriptionsList">
+                
+                <div class="ds-subscription-item">
+                    <div class="ds-avatar">
+                        А
+                    </div>
+                    <div class="ds-user-info">
+                        <div class="ds-username">Алексей Иванов</div>
+                        <div class="ds-user-handle">@alexey</div>
+                    </div>
+                    <button class="ds-subscribe-btn ds-subscribed" onclick="dsToggleSubscription(this, 1)">
+                        Подписан
+                    </button>
+                </div>
+            
+
+            </div>
+        </div>
+    </div>
+
+{% block script %}<script src="{{ url_for('static', filename='js/modal_subscription.js') }}"></script>{% endblock %}

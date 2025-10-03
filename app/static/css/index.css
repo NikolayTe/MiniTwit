@@ -204,3 +204,7 @@
 .subscribe-btn.subscribed:hover {
     background: #536471;
 }
+
+.pointer{
+  cursor: pointer;
+}
