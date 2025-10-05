@@ -207,7 +207,7 @@ def get_subsribers_list(id):
         subscribers = user.subscribers
 
         for item in subscribers:
-            subscriber_list = dict()
+            subscriber_dct = dict()
 
             subscriber_id = item.user_id_subscriber
             subscriber_user = User.query.get(subscriber_id).get_user_data()
@@ -221,9 +221,9 @@ def get_subsribers_list(id):
             else:
                 isSubscribed = False
 
-            subscriber_list = dict(id=subscriber_id, username=username, handle=handle, avatar=avatar, isSubscribed=isSubscribed)
-            print(subscriber_list)
-            subscribers_list.append(subscriber_list)
+            subscriber_dct = dict(id=subscriber_id, username=username, handle=handle, avatar=avatar, isSubscribed=isSubscribed)
+            print(subscriber_dct)
+            subscribers_list.append(subscriber_dct)
         sleep(1)
         return jsonify({'success': True, 'subscribers_list': subscribers_list})
 
@@ -231,4 +231,35 @@ def get_subsribers_list(id):
         print(ex)
         return jsonify({'success': False, 'message': str(ex), 'error': str(ex)}) 
     
-    
+
+@api.route('/api/get_subscriptions_list/<int:user_id>', methods=['GET'])
+def get_subscriptions_list(user_id):
+
+    try:
+        subscriptions_list = []
+
+        user = User.query.get(user_id)
+        subscriptions = user.subscriptions
+
+        for subscription in subscriptions:
+            subscription_id = subscription.user_id
+            subscription_data = User.query.get(subscription_id).get_user_data()
+
+            username = subscription_data.get('displayName')
+            handle = subscription_data.get('username')
+            avatar = subscription_data.get('avatar_path')
+
+            if current_user.is_authenticated:
+                isSubscribed = Subscriber.is_subscribe(current_user.id, subscription_id)
+            else:
+                isSubscribed = False
+            
+            subscriptions_dct = dict(id=subscription_id, username=username, handle=handle, avatar=avatar, isSubscribed=isSubscribed)
+            subscriptions_list.append(subscriptions_dct)
+
+        return jsonify({'success': True, 'subscribers_list': subscriptions_list})
+
+
+        
+    except Exception as ex:
+        return jsonify({'success': False, 'message': str(ex), 'error': str(ex)}) 

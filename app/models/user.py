@@ -93,13 +93,14 @@ class Subscriber(db.Model):
     # Проверяю подписан ли subscriber_id на user_id
     @classmethod
     def is_subscribe(cls, subscriber_id, user_id):
+        print("пользователь ", subscriber_id, 'подписан на ', user_id, cls.query.filter_by(user_id=user_id, user_id_subscriber=subscriber_id).first() is not None)
         return cls.query.filter_by(user_id=user_id, user_id_subscriber=subscriber_id).first() is not None
     
     # Подписка/отписка
     @classmethod
     def subscribe(cls, subscriber_id, user_id):
         if subscriber_id == user_id:
-            return {'success': False, 'error': 'Cannot subscribe to yourself'}
+            return {'success': False, 'error': 'Cannot subscribe to yourself', 'message': 'Cannot subscribe to yourself'}
         
         try:
             # Если подписан то отписка, если нет то подписаться
@@ -117,7 +118,7 @@ class Subscriber(db.Model):
             
         except Exception as ex:
             db.session.rollback()
-            return {'success': False, 'error': ex}
+            return {'success': False, 'error': str(ex)}
     
 
         
