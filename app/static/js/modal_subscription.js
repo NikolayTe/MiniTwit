@@ -76,7 +76,7 @@ async function dsLoadSubscriptions(user_id, api_get) {
                 const dsSubscriptionsData = result.subscribers_list
                 
                 if (dsSubscriptionsData.length === 0) {
-                    list.innerHTML = '<div class="ds-empty-state">Подписчиков нет(</div>';
+                    list.innerHTML = '<div class="ds-empty-state">Пусто(</div>';
                     return;
                 }
                 list.innerHTML = dsSubscriptionsData.map(user => `
@@ -158,6 +158,12 @@ async function dsToggleSubscription(button, userId) {
 }
 function dsOpenSubscriptionsModal(user_id, api_get) {
     const modal = document.getElementById('dsSubscriptionsModal');
+    if(api_get === 'get_subscriptions_list'){
+        modal.querySelector('.ds-modal-title').textContent = 'Подписки';
+    }else{
+        modal.querySelector('.ds-modal-title').textContent = 'Подписчики'
+    }
+
     modal.style.display = 'flex';
     dsLoadSubscriptions(user_id, api_get);
 }

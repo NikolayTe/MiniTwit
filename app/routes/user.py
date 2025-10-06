@@ -3,6 +3,7 @@ from ..extensions import db
 from ..models.user import User, Subscriber
 from flask_login import login_user, logout_user, current_user, login_required
 from functools import wraps
+from ..models.post import Post
 
 
 user = Blueprint('user', __name__)
@@ -72,6 +73,26 @@ def user_likes(id):
 
     user_profile = False
     active_page = 'likes'
+    return render_template('main/index.html', user_profile=user_profile, posts=posts, active_page=active_page)
+
+
+@user.route('/user/<int:id>/subscriptions', methods=['GET'])
+@my_login_required
+def user_subscriptions(id):
+
+    if current_user.id != id:
+        return render_template('/main/custom_index.html', message='Можно посмотреть только свои подписки!')
+
+    user = User.query.get(id)
+    subscriptions = user.subscriptions
+
+    posts = []
+    for subscription in subscriptions:
+        # posts += User.query.get(subscription.user_id).posts
+        posts += Post.query.join(User).filter(User.id == subscription.user_id).order_by(Post.created_at.desc()).limit(10)
+
+    user_profile = False
+    active_page = 'subscriptions'
     return render_template('main/index.html', user_profile=user_profile, posts=posts, active_page=active_page)
 
 
