@@ -90,7 +90,12 @@
           <span>{{ post.likes|length }}</span>
         </div>
         <div class="tweet-action">
-          <i class="fas fa-share"></i>
+          {% set is_favourite = post.favourites|selectattr("user_id",  "equalto", current_user.id)|list %}
+          {% if is_favourite %}
+            <i class="fas fa-bookmark" style="color: orange;"></i>
+          {% else %}
+            <i class="far fa-bookmark"></i>           <!-- fas fa-share  -->
+          {% endif %}
         </div>
       </div>
     </div>

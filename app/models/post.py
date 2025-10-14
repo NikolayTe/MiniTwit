@@ -49,3 +49,22 @@ class PostLike(db.Model):
     
     def __repr__(self):
         return f'<Like user:{self.user_id} post:{self.post_id}>'
+
+
+class PostFavour(db.Model):
+    __tablename__ = 'post_favourites'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    added_at = db.Column(db.DateTime, default=datetime.now)
+
+    user = db.relationship('User', backref=db.backref('favourites', lazy=True))
+    post = db.relationship('Post', backref=db.backref('favourites', lazy=True))
+
+    @classmethod
+    def is_favourite(cls, post_id, user_id):
+        return cls.query.filter_by(post_id=post_id, user_id=user_id).first() is not None
+
+    def __repr__(self):
+        return f'<User favourites:{self.user_id} post:{self.post_id}>'

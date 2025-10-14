@@ -23,7 +23,7 @@
                 <i class="fas fa-user"></i>
                 <span>Подписки</span>
             </div>
-            <div class="menu-item">
+            <div class="menu-item {% if active_page == 'favourites' %}active{% endif %}" name="favourites" data-href="{% if current_user.is_authenticated %}{{ url_for('user.user_favourites', id=current_user.id) }}{% else %}{{ url_for('post.user_posts', id=0) }}{% endif %}">
                 <i class="fas fa-star"></i>
                 <span>Избранное</span>
             </div>

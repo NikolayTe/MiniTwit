@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from ..extensions import db
 from ..models.user import User, check_user_from_db, Subscriber
-from ..models.post import Post, PostLike
+from ..models.post import Post, PostLike, PostFavour
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 from time import sleep
@@ -103,6 +103,7 @@ def edit_profile(id):
 
 
     except Exception as ex:
+        db.session.rollback()
         return jsonify({'success': False, 'message': str(ex)})
 
     return jsonify({'success': True, 'message': 'The profile has been edited!'})
@@ -122,6 +123,7 @@ def new_post():
         db.session.commit()
 
     except Exception as ex:
+        db.session.rollback()
         return jsonify({'success': False, 'message': f'Unknown error!\n{ex}'})
 
     print("OK new post", request.json)
@@ -170,7 +172,7 @@ def like_action(post_id):
         print({'success': True, 'count_likes': count_likes, 'is_like': is_like})
 
     except Exception as ex:
-        print('Error', ex)
+        db.session.rollback()
         return jsonify({'success': False, 'message': "Unknown error!", 'error': str(ex)})
                        
     return jsonify({'success': True, 'count_likes': count_likes, 'is_like': is_like})
@@ -192,6 +194,7 @@ def subscribe(user_id):
         return jsonify(result)
     
     except Exception as ex:
+        db.session.rollback()
         return jsonify({'success': False, 'message': str(ex), 'error': str(ex)}) 
 
 
@@ -262,4 +265,34 @@ def get_subscriptions_list(user_id):
 
         
     except Exception as ex:
+
         return jsonify({'success': False, 'message': str(ex), 'error': str(ex)}) 
+    
+
+
+@api.route('/api/post/<int:post_id>/favourite', methods=['POST'])
+def post_favourite(post_id):
+
+    if not current_user.is_authenticated:
+        return jsonify({'success': False, 'message': "Пожалуйста авторизуйтесь!"})
+    
+    # Проверяю уже ли в избранном
+    try:
+        favourite = PostFavour.is_favourite(post_id=post_id, user_id=current_user.id)
+        if favourite:
+            # Удаляю из избранного
+            favour = PostFavour.query.filter_by(post_id=post_id, user_id=current_user.id).first()
+            db.session.delete(favour)
+            db.session.commit()
+            is_favourite = False
+        else:
+            favour = PostFavour(post_id=post_id, user_id=current_user.id)
+            db.session.add(favour)
+            db.session.commit()
+            is_favourite = True
+
+        return jsonify({'success': True, 'is_favourite': is_favourite})
+
+    except Exception as ex:
+        db.session.rollback()
+        return jsonify({'success': False, 'message': "Unknown error!", 'error': str(ex)})

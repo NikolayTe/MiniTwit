@@ -96,3 +96,16 @@ def user_subscriptions(id):
     return render_template('main/index.html', user_profile=user_profile, posts=posts, active_page=active_page)
 
 
+@user.route('/user/<int:id>/favourites', methods=['GET'])
+@my_login_required
+def user_favourites(id):
+
+    if current_user.id != id:
+        return render_template('/main/custom_index.html', message='Можно посмотреть только своё избранное!')
+
+    user = User.query.get(id)
+    posts = [favourite.post for favourite in user.favourites]
+
+    user_profile = False
+    active_page = 'favourites'
+    return render_template('main/index.html', user_profile=user_profile, posts=posts, active_page=active_page)
