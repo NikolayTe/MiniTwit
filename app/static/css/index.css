@@ -208,3 +208,50 @@
 .pointer{
   cursor: pointer;
 }
+
+/* Стили для кнопки загрузки доп постов */
+.com-load-more-btn {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 15px 0;
+    background-color: white;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    color: #1da1f2;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+.com-load-more-btn:hover {
+    background-color: #e8f5fe;
+    border-color: #1da1f2;
+}
+
+.com-load-more-btn:active {
+    transform: scale(0.98);
+}
+.com-load-more-btn i {
+    margin-right: 8px;
+    font-size: 12px;
+}
+.com-load-more-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f8f9fa;
+    color: #657786;
+}
+.com-load-more-btn.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+.com-load-more-btn.loading i {
+    animation: com-spin 1s linear infinite;
+}
+@keyframes com-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
