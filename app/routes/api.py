@@ -318,7 +318,7 @@ def get_comments(post_id):
             }
             comments_list.append(dct)
 
-        
+        sleep(0.5)
         return jsonify({'success': True, 'comments_list': comments_list})
     except Exception as ex:
         return jsonify({'success': False, 'message': str(ex), 'error': str(ex)}) 

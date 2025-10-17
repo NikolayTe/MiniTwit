@@ -87,7 +87,7 @@
             <i class="far fa-heart"></i>
           {% endif %}
           
-          <span>{{ post.likes|length }}</span>
+          <span class="likes-count">{{ post.likes|length }}</span>
         </div>
         <div class="tweet-action">
           {% set is_favourite = post.favourites|selectattr("user_id",  "equalto", current_user.id)|list %}

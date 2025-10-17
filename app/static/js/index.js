@@ -5,11 +5,15 @@ btn_favour = document.querySelectorAll('.fa-bookmark')
 btn_likes.forEach(btn => {
 
     btn.addEventListener('click', async function() {
-        
-        console.log('Сердечко нажато!', this);
 
         // Нахожу id поста
-        const post_id = this.closest('.tweet').id;
+        const tweet = btn.closest('.tweet');
+        if (!tweet || !tweet.id) {
+            return;
+        }
+        console.log('Сердечко нажато!', this);
+        const post_id = tweet.id;
+        // const post_id = this.closest('.tweet').id;
 
         try {
             const response = await fetch(`/api/post/${post_id}/like`, {
@@ -59,7 +63,11 @@ btn_favour.forEach(btn => {
     btn.addEventListener('click', async function() {
 
         // Нахожу id поста
-        const post_id = btn.closest('.tweet').id;
+        const tweet = btn.closest('.tweet');
+        if (!tweet || !tweet.id) {
+            return;
+        }
+        const post_id = tweet.id;
 
         try {
            const response = await fetch(`/api/post/${post_id}/favourite`, {
