@@ -69,6 +69,26 @@
 
     <div class="right">
         <div class="sidebar">
+            <div class="section-title">Актуальное</div>
+
+            <div class="menu-item">
+                <a href="{{ url_for('main.index') }}" class="menu-link"></a>
+                <i class="fas fa-fire"></i>
+                <span>Популярное</span>
+            </div>
+
+            <div class="menu-item">
+                <a href="{{ url_for('main.index') }}" class="menu-link"></a>
+                <i class="fas fa-gem"></i>
+                <span>Люди</span>
+            </div>
+
+            <div class="menu-item">
+                <a href="{{ url_for('main.index') }}" class="menu-link"></a>
+                <i class="fas fa-bolt"></i>
+                <span>Новости</span>
+            </div>
+
             {% if current_user.is_authenticated %}
                 <div class="post-button-container" >
                      <button class="logout-button" id="logoutBtn">

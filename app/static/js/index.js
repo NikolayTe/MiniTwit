@@ -3,7 +3,9 @@ btn_subscribe = document.querySelector('.subscribe-btn')
 btn_favour = document.querySelectorAll('.fa-bookmark')
 
 btn_likes.forEach(btn => {
+
     btn.addEventListener('click', async function() {
+        
         console.log('Сердечко нажато!', this);
 
         // Нахожу id поста

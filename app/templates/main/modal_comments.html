@@ -1,0 +1,124 @@
+
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/modal_comments.css') }}">
+{% endblock %}
+
+<!-- Модальное окно комментариев -->
+<div class="com-modal-overlay" id="comModalOverlay" onclick="comCloseModal()"></div>
+
+<div class="com-modal" id="comModal">
+    <!-- Шапка -->
+    <div class="com-modal-header">
+        <div class="com-modal-title">Комментарии</div>
+        <button class="com-close-btn" onclick="comCloseModal()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <!-- Контент -->
+    <div class="com-modal-content">
+        <!-- Оригинальный пост -->
+        <div class="com-original-post">
+            <div class="com-post-header">
+                <a href="" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                    <div class="com-avatar">Д</div>
+                    <div class="com-user-info">
+                        <div>
+                            <span class="com-username">Денис</span>
+                            <span class="com-user-handle">@Denis</span>
+                            <span class="com-post-time">· 01:40 10.10.2025</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="com-post-text">
+                bisfabdribd a ergd vaer
+            </div>
+            <div class="com-post-stats">
+                <span><i class="far fa-comment"></i> 12</span>
+                <!-- <span><i class="fas fa-retweet"></i> 1</span> -->
+                <span><i class="far fa-heart"></i> 24</span>
+            </div>
+        </div>
+        <!-- Список комментариев -->
+        <div class="com-comments-section">
+            <!-- Комментарий 1 -->
+            <div class="com-comment">
+                <div class="com-comment-header">
+                    <div class="com-comment-avatar">Г</div>
+                    <div>
+                        <span class="com-comment-user">Генадий</span>
+                        <span class="com-comment-handle">@Petrov</span>
+                        <span class="com-comment-time">· 20:40 02.10.2025</span>
+                    </div>
+                </div>
+                <div class="com-comment-text">
+                    Отличный пост! Полностью согласен с автором.
+                </div>
+                <div class="com-comment-actions">
+                    <button class="com-action-btn">
+                        <i class="far fa-heart"></i> 5
+                    </button>
+                    <button class="com-action-btn">
+                        <i class="far fa-comment"></i> Ответить
+                    </button>
+                </div>
+            </div>
+            <!-- Комментарий 2 -->
+            <div class="com-comment">
+                <div class="com-comment-header">
+                    <div class="com-comment-avatar">Е</div>
+                    <div>
+                        <span class="com-comment-user">Егор</span>
+                        <span class="com-comment-handle">@pushka777</span>
+                        <span class="com-comment-time">· 21:15 02.10.2025</span>
+                    </div>
+                </div>
+                <div class="com-comment-text">
+                    Интересная мысль, но я бы поспорил с некоторыми моментами.
+                </div>
+                <div class="com-comment-actions">
+                    <button class="com-action-btn">
+                        <i class="far fa-heart"></i> 2
+                    </button>
+                    <button class="com-action-btn">
+                        <i class="far fa-comment"></i> Ответить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Поле ввода нового комментария -->
+    <div class="com-comment-input">
+        <div class="com-input-container">
+            <div class="com-input-avatar">В</div>
+            <div class="com-input-wrapper">
+                <textarea 
+                    class="com-text-input" 
+                    placeholder="Напишите комментарий..."
+                    oninput="comToggleSendBtn()"
+                    id="comCommentInput"
+                ></textarea>
+                <div class="com-input-actions">
+                    <div class="com-input-icons">
+                        <button class="com-icon-btn" title="Добавить фото">
+                            <i class="far fa-image"></i>
+                        </button>
+                        <button class="com-icon-btn" title="Добавить GIF">
+                            <i class="far fa-laugh"></i>
+                        </button>
+                        <button class="com-icon-btn" title="Добавить эмодзи">
+                            <i class="far fa-smile"></i>
+                        </button>
+                    </div>
+                    <button class="com-send-btn" id="comSendBtn" disabled onclick="comSendComment(this)" data-user-id="{{ current_user.id }}">
+                        <i class="fas fa-paper-plane"></i>
+                        Отправить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block script %}<script src="{{ url_for('static', filename='js/modal_comments.js') }}"></script>{% endblock %}

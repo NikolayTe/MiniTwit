@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from ..extensions import db
 from ..models.user import User, check_user_from_db, Subscriber
-from ..models.post import Post, PostLike, PostFavour
+from ..models.post import Post, PostLike, PostFavour, PostComments
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 from time import sleep
@@ -296,3 +296,75 @@ def post_favourite(post_id):
     except Exception as ex:
         db.session.rollback()
         return jsonify({'success': False, 'message': "Unknown error!", 'error': str(ex)})
+
+
+@api.route('/api/get_comments/<int:post_id>', methods=['GET'])
+def get_comments(post_id):
+    try:
+
+        post = Post.query.get(post_id)
+        comments = post.comments
+
+        comments_list = []
+
+        for comment in comments:
+            dct = { 'comment_id': comment.id,
+                   'user_name': comment.user.username,
+                   'user_id': comment.user.id,
+                   'display_name': comment.user.displayName,
+                   'created_at': comment.created_at,
+                   'comment_text': comment.comment,
+                   'avatar_path' : comment.user.avatar_path
+            }
+            comments_list.append(dct)
+
+        
+        return jsonify({'success': True, 'comments_list': comments_list})
+    except Exception as ex:
+        return jsonify({'success': False, 'message': str(ex), 'error': str(ex)}) 
+
+
+@api.route('/api/set_comment/<int:post_id>', methods=['POST'])
+def set_comment(post_id):
+    data = request.get_json()
+    print('data', data)
+
+    if not data:
+        return jsonify({'success': False, 'message': 'Комментарий не может быть пустым!'})
+    
+    if data.get('user_id', '') == '' or data.get('user_id', '') != current_user.id:
+        return jsonify({'success': False, 'message': 'Пожалуйста авторизуйтесь!'})
+        
+    try:
+        comment = data['comment']
+        if len(comment) > 300:
+            return jsonify({'success': False, 'message': 'Длина комментария не может быть больше 300 символов!'})
+        
+        user_id = data.get('user_id', '')
+        
+        new_comment = PostComments(post_id=post_id, user_id=user_id, comment=comment)
+
+        
+        
+
+        db.session.add(new_comment)
+        db.session.commit()
+        # нахожу данные пользователя добавившего коммент
+        comment_data = { 'comment_id': new_comment.id,
+                   'user_name': new_comment.user.username,
+                   'user_id': new_comment.user.id,
+                   'display_name': new_comment.user.displayName,
+                   'created_at': new_comment.created_at,
+                   'comment_text': new_comment.comment,
+                   'avatar_path' : new_comment.user.avatar_path
+            }
+        print('comment_data', comment_data)
+        return jsonify({'success': True, 'message': 'Комментарий успешно добавлен!', 'comment_data': comment_data})
+
+
+    except Exception as ex:
+        db.session.rollback()
+        return jsonify({'success': False, 'message': str(ex), 'error': str(ex)}) 
+    
+
+    

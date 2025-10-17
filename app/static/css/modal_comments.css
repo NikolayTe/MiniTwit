@@ -1,0 +1,302 @@
+/* Затемнение фона */
+.com-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+/* Само модальное окно */
+.com-modal {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    max-width: 90%;
+    max-height: 80vh;
+    background-color: white;
+    border-radius: 16px;
+    border: 1px solid #e1e8ed;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+    display: none;
+    overflow: hidden;
+
+    
+}
+/* Шапка модального окна */
+.com-modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e1e8ed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+}
+.com-modal-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+.com-close-btn {
+    background: none;
+    border: none;
+    color: #1da1f2;
+    font-size: 20px;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.com-close-btn:hover {
+    background-color: #f5f5f5;
+}
+/* Контент модального окна */
+.com-modal-content {
+    padding: 0;
+    overflow-y: auto;
+    max-height: calc(80vh - 120px);
+    background-color: white;
+}
+/* Оригинальный пост */
+.com-original-post {
+    margin: 10px 10px 0 10px;
+    border-radius: 15px;
+    padding: 20px;
+    /* border-bottom: 1px solid #e1e8ed; */
+    background-color: rgba(0, 0, 0, 0.03);;
+}
+.com-post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.com-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #1da1f2;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+}
+.com-user-info {
+    flex-grow: 1;
+}
+.com-username {
+    font-weight: bold;
+    font-size: 15px;
+    color: #333;
+}
+.com-user-handle {
+    color: #657786;
+    font-size: 14px;
+}
+.com-post-time {
+    color: #657786;
+    font-size: 14px;
+}
+.com-post-text {
+    margin-left: 50px;
+    font-size: 15px;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    color: #333;
+}
+.com-post-stats {
+    display: flex;
+    gap: 20px;
+    color: #657786;
+    font-size: 13px;
+}
+/* Комментарии */
+.com-comments-section {
+    padding: 20px;
+    background-color: white;
+    margin-bottom: 100px;
+}
+.com-comment {
+    padding: 15px 0;
+    border-bottom: 1px solid #e1e8ed;
+    background-color: white;
+}
+.com-comment:last-child {
+    border-bottom: none;
+}
+.com-comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.com-comment-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #17bf63;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    color: white;
+}
+.com-comment-user {
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+.com-comment-handle {
+    color: #657786;
+    font-size: 13px;
+    margin-left: 5px;
+}
+.com-comment-time {
+    color: #657786;
+    font-size: 13px;
+    margin-left: 10px;
+}
+.com-comment-text {
+    margin-left: 44px;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    color: #333;
+}
+.com-comment-actions {
+    display: flex;
+    gap: 15px;
+}
+.com-action-btn {
+    background: none;
+    border: none;
+    color: #657786;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.com-action-btn:hover {
+    color: #1da1f2;
+}
+/* Поле ввода нового комментария */
+.com-comment-input {
+
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    border-top: 1px solid #e1e8ed;
+    padding: 15px 20px;
+
+
+
+    padding: 15px 20px;
+    border-top: 1px solid #e1e8ed;
+    background-color: white;
+}
+.com-input-container {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.com-input-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #1da1f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    flex-shrink: 0;
+    margin-top: 5px;
+}
+.com-input-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.com-text-input {
+    background-color: white;
+    border: none;
+    color: #333;
+    font-size: 14px;
+    resize: none;
+    min-height: 60px;
+    padding: 10px;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    width: 95%;
+}
+.com-text-input:focus {
+    outline: none;
+    border-color: #1da1f2;
+}
+.com-text-input::placeholder {
+    color: #657786;
+}
+.com-input-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.com-input-icons {
+    display: flex;
+    gap: 15px;
+}
+.com-icon-btn {
+    background: none;
+    border: none;
+    color: #1da1f2;
+    cursor: pointer;
+    font-size: 16px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.com-icon-btn:hover {
+    background-color: #f0f8ff;
+}
+.com-send-btn {
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+.com-send-btn:hover {
+    background-color: #1a91da;
+}
+.com-send-btn:disabled {
+    background-color: #9bd1f9;
+    cursor: not-allowed;
+}
+.com-send-btn i {
+    font-size: 12px;
+}

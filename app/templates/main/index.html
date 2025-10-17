@@ -73,7 +73,7 @@
       <div class="tweet-footer">
         <div class="tweet-action">
           <i class="far fa-comment"></i>
-          <span>{{ post.replies_count }}</span>
+          <span>{{ post.comments|list|length }}</span>
         </div>
         <div class="tweet-action">
           <i class="fas fa-retweet"></i>
@@ -136,6 +136,8 @@
   </div>
 </div>
 
+
+{% include 'main/modal_comments.html' %}
 {% endblock %}
 
 {% block script %}<script src="{{ url_for('static', filename='js/index.js') }}"></script>{% endblock %}

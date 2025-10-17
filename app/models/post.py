@@ -68,3 +68,18 @@ class PostFavour(db.Model):
 
     def __repr__(self):
         return f'<User favourites:{self.user_id} post:{self.post_id}>'
+    
+
+
+class PostComments(db.Model):
+    __tablename__  = 'post_comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    comment = db.Column(db.String(300), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+
+    post = db.relationship('Post',  backref=db.backref('comments', lazy=True))
+    user = db.relationship('User',  backref=db.backref('comments', lazy=True)) # Вернет все комменты которые он оставил
+    

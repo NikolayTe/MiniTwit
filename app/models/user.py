@@ -56,9 +56,7 @@ class User(db.Model, UserMixin):
                 'url': self.url,
                 'count_subscribers': count_subscribers,
                 'count_subscriptions': count_subscriptions,
-                'count_posts': count_posts,
-                'count_likes': count_likes
-
+                'count_posts': count_posts
         }
 
 
