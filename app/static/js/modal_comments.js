@@ -1,22 +1,4 @@
-btn_comments = document.querySelectorAll('.fa-comment')
 
-btn_comments.forEach(btn_in => {
-    const btn = btn_in.closest('.tweet-action')
-    if (btn === null) return;
-
-    btn.addEventListener('click', function(){
-
-        const tweet = btn.closest('.tweet');
-        if (!tweet || !tweet.id) {
-            return;
-        }
-        const post_id = tweet.id;
-
-        // const post_id = btn.closest('.tweet').id;
-        console.log('post_id', post_id)
-        comOpenModal(post_id)
-    })
-});
 
 function fill_modal(orig_post, comModal, post_id){
     comModal.style.display = 'block';

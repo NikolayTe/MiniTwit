@@ -181,11 +181,12 @@
   </div> -->
 </div>
 
-
-<button class="com-load-more-btn" id="comLoadMore" onclick="comLoadMoreComments()">
-    <i class="fas fa-chevron-down"></i>
-    Ещё посты
-</button>
+{% if not only_profiles %}
+  <button class="com-load-more-btn" id="comLoadMore" data-active-page="{{active_page}}" data-page-number="1" onclick="comLoadMorePosts(this)">
+      <i class="fas fa-chevron-down"></i>
+      Ещё посты
+  </button>
+{% endif %}
 
 
 {% include 'main/modal_comments.html' %}

@@ -367,4 +367,35 @@ def set_comment(post_id):
         return jsonify({'success': False, 'message': str(ex), 'error': str(ex)}) 
     
 
+
+
+@api.route('/api/get_main_posts/<int:page>', methods=['GET'])
+def get_main_posts(page, per_page=10):
+    try:
+            
+        posts = Post.query.order_by(Post.created_at.desc()).offset((page - 1) * per_page).limit(per_page).all()
+        last_posts = []
+        
+        for post in posts:
+            post_data = {
+                'post_id': post.id,
+                'user_id': post.user.id,
+                'displayName': post.user.displayName,
+                'username': post.user.username,
+                'created_ats': post.created_at.strftime('%H:%M  %d.%m.%Y'),
+                'content': post.content,
+                'count_comments': len(post.comments),
+                'count_likes': PostLike.count_likes_post(post.id),
+                'is_favourite': PostFavour.is_favourite(post.id, current_user.id),
+                'user_like': PostLike.is_like(post.id, current_user.id)
+            }
+            last_posts.append(post_data)
+
+
+        return jsonify({'success': True, 'posts': last_posts})
+    
+    except Exception as ex:
+
+        return jsonify({'success': False, 'message': str(ex), 'error': str(ex)})
+    
     

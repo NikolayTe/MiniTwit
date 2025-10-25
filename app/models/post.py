@@ -47,6 +47,10 @@ class PostLike(db.Model):
     def count_likes_post(cls, post_id):
         return len(cls.query.filter_by(post_id=post_id).all())
     
+    @classmethod
+    def is_like(cls, post_id, user_id):
+        return cls.query.filter_by(post_id=post_id, user_id=user_id).first() is not None
+    
     def __repr__(self):
         return f'<Like user:{self.user_id} post:{self.post_id}>'
 
