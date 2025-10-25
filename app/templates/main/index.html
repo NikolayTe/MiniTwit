@@ -20,11 +20,14 @@
       
       <div class="user-profile-card" id="{{user.id}}">
         <div class="tweet-header">
-          <img src="https://russian.people.com.cn/NMediaFile/2024/0408/FOREIGN1712567381216Q9C7PEHJ8A.jpg" alt="User" class="tweet-avatar">
-          <div class="tweet-user-info">
-            <span class="tweet-username">{{ user.displayName }}</span>
-            <span class="tweet-usertag">@{{ user.username }}</span>
-          </div>
+          <a href="{{ url_for('user.user_profile_posts', id=user.id) }}" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+            <img src="https://russian.people.com.cn/NMediaFile/2024/0408/FOREIGN1712567381216Q9C7PEHJ8A.jpg" alt="User" class="tweet-avatar">
+            <div class="tweet-user-info">
+              <span class="tweet-username">{{ user.displayName }}</span>
+              <span class="tweet-usertag">@{{ user.username }}</span>
+            </div>
+          </a>
+          
         </div>
         <div class="user-stats">
           <div class="stat">

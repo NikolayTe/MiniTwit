@@ -1,43 +1,99 @@
 // Добавляю ссылки на дивы с подписчиками/подписками
-div_subsribers = document.querySelector('[name="count_subscribers"]');
-parent_div_subsribers = div_subsribers.closest('.stat');
+// div_subsribers = document.querySelector('[name="count_subscribers"]');
+// parent_div_subsribers = div_subsribers.closest('.stat');
 
-div_subscriptions = document.querySelector('[name="count_subscriptions"]');
-parent_div_subscriptions = div_subscriptions.closest('.stat');
+// div_subscriptions = document.querySelector('[name="count_subscriptions"]');
+// parent_div_subscriptions = div_subscriptions.closest('.stat');
 
 
-// Для страницы профиля и для index
-if(!parent_div_subsribers){
-    parent_div_subsribers = div_subsribers.closest('.stat-item');
-    parent_div_subsribers.addEventListener('click', function(){
-    user_id = parent_div_subsribers.closest('.profile-container').id;
-    api_get = 'get_subsribers_list';
-    dsOpenSubscriptionsModal(user_id, api_get);
-    });
+// Для страницы профиля и для простого index ЧТОБЫ НЕ ВЫСКАКИВАЛА ОШИБКА В КОНСОЛЕ
+// if(!parent_div_subsribers){
+//     parent_div_subsribers = div_subsribers.closest('.stat-item');
+//     parent_div_subsribers.addEventListener('click', function(){
+//         user_id = parent_div_subsribers.closest('.profile-container').id;
+//         api_get = 'get_subsribers_list';
+//         dsOpenSubscriptionsModal(user_id, api_get);
+//     });
 
-}else{
-    parent_div_subsribers.addEventListener('click', function(){
-    user_id = parent_div_subsribers.closest('.user-profile-card').id;
-    api_get = 'get_subsribers_list';
-    dsOpenSubscriptionsModal(user_id, api_get);
-    });
-}
+// }else{
+//     parent_div_subsribers.addEventListener('click', function(){
+//     user_id = parent_div_subsribers.closest('.user-profile-card').id;
+//     api_get = 'get_subsribers_list';
+//     dsOpenSubscriptionsModal(user_id, api_get);
+//     });
+// }
 
-if (!parent_div_subscriptions){
-    parent_div_subscriptions = div_subscriptions.closest('.stat-item');
-    parent_div_subscriptions.addEventListener('click', function(){
-    user_id = parent_div_subscriptions.closest('.profile-container').id;
-    api_get = 'get_subscriptions_list';
-    dsOpenSubscriptionsModal(user_id, api_get);
-    });
 
-}else{
-    parent_div_subscriptions.addEventListener('click', function(){
-    user_id = parent_div_subscriptions.closest('.user-profile-card').id;
-    api_get = 'get_subscriptions_list';
-    dsOpenSubscriptionsModal(user_id, api_get);
-    });
-}
+
+// if (!parent_div_subscriptions){
+//     parent_div_subscriptions = div_subscriptions.closest('.stat-item');
+//     parent_div_subscriptions.addEventListener('click', function(){
+//         user_id = parent_div_subscriptions.closest('.profile-container').id;
+//         api_get = 'get_subscriptions_list';
+//         dsOpenSubscriptionsModal(user_id, api_get);
+//     });
+
+// }else{
+//     parent_div_subscriptions.addEventListener('click', function(){
+//     user_id = parent_div_subscriptions.closest('.user-profile-card').id;
+//     api_get = 'get_subscriptions_list';
+//     dsOpenSubscriptionsModal(user_id, api_get);
+//     });
+// }
+
+
+
+// СВЕРХУ УДАЛИТЬ ЕСЛИ ВСЕ РАБОТАЕТ
+
+// Добавляю ссылки на дивы с подписчиками/подписками
+const divs_subsribers = document.querySelectorAll('[name="count_subscribers"]');
+const divs_subscriptions = document.querySelectorAll('[name="count_subscriptions"]');
+
+divs_subsribers.forEach(div_subsribers => {
+    let parent_div_subsribers = div_subsribers.closest('.stat-item');
+    // Это для страницы своего профиля
+    if (parent_div_subsribers){
+        parent_div_subsribers.addEventListener('click', function(){
+            user_id = parent_div_subsribers.closest('.profile-container').id;
+            api_get = 'get_subsribers_list';
+            dsOpenSubscriptionsModal(user_id, api_get);
+        }); 
+        // Это для страниц профиля других пользователей и вкладки Люди
+    }else{
+        parent_div_subsribers = div_subsribers.closest('.stat');
+        parent_div_subsribers.addEventListener('click', function(){
+            user_id = parent_div_subsribers.closest('.user-profile-card').id;
+            api_get = 'get_subsribers_list';
+            dsOpenSubscriptionsModal(user_id, api_get);
+        });
+    }
+});
+
+divs_subscriptions.forEach(div_subscriptions => {
+    let parent_div_subscriptions = div_subscriptions.closest('.stat-item');
+    if(parent_div_subscriptions){
+        parent_div_subscriptions.addEventListener('click', function(){
+            user_id = parent_div_subscriptions.closest('.profile-container').id;
+            api_get = 'get_subscriptions_list';
+            dsOpenSubscriptionsModal(user_id, api_get);
+        });
+    }else{
+        parent_div_subscriptions = div_subscriptions.closest('.stat');
+        parent_div_subscriptions.addEventListener('click', function(){
+            user_id = parent_div_subscriptions.closest('.user-profile-card').id;
+            api_get = 'get_subscriptions_list';
+            dsOpenSubscriptionsModal(user_id, api_get);
+        });
+    }
+})
+
+
+
+
+
+
+
+
 
 
 // Данные подписок (в реальном приложении будут приходить с сервера)

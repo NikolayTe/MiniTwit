@@ -112,49 +112,55 @@ btn_favour.forEach(btn => {
         
     });
 })
+btns_subscribe = document.querySelectorAll('.subscribe-btn')
 
-// Подписка / отписка
-if (btn_subscribe){
-    btn_subscribe.addEventListener('click', async function() { 
+btns_subscribe.forEach(btn_subscribe => {
 
-        user_id = btn_subscribe.closest('.user-profile-card').id;
-        
-        try {
-            const response = await fetch(`/api/subscribe/${user_id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+    // Подписка / отписка
+    if (btn_subscribe){
+        btn_subscribe.addEventListener('click', async function() { 
+
+            user_id = btn_subscribe.closest('.user-profile-card').id;
             
-            if (response.ok) {
-                const result = await response.json();
-                if (result.success) {
-                    if(result.subscribed){
-                        btn_subscribe.classList.add('subscribed');
-                        btn_subscribe.textContent = 'Подписан';
-
-                    }else{
-                        btn_subscribe.classList.remove('subscribed');
-                        btn_subscribe.textContent = 'Подписаться';
+            try {
+                const response = await fetch(`/api/subscribe/${user_id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
                     }
-                    label_subscribers = btn_subscribe.closest('.user-profile-card').querySelector('[name="count_subscribers"]');
-                    label_subscribers.textContent = result.count_subscribers
-                }
+                });
                 
-                else {
-                    alert(result.message); 
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        if(result.subscribed){
+                            btn_subscribe.classList.add('subscribed');
+                            btn_subscribe.textContent = 'Подписан';
+
+                        }else{
+                            btn_subscribe.classList.remove('subscribed');
+                            btn_subscribe.textContent = 'Подписаться';
+                        }
+                        label_subscribers = btn_subscribe.closest('.user-profile-card').querySelector('[name="count_subscribers"]');
+                        label_subscribers.textContent = result.count_subscribers
+                    }
+                    
+                    else {
+                        alert(result.message); 
+                    }
+                    console.log('Результат:', result);
+
+                } else {
+                    alert('Ошибка при подписке. Вы точно авторизованы? ' + response.status);
                 }
-                console.log('Результат:', result);
-
-            } else {
-                alert('Ошибка при подписке. Вы точно авторизованы? ' + response.status);
+            } catch (error) {
+                console.error('Ошибка:', error);
+                alert('Произошла ошибка при подписке');
             }
-        } catch (error) {
-            console.error('Ошибка:', error);
-            alert('Произошла ошибка при подписке');
-        }
 
 
-    });
-}
+        });
+    }
+
+})
+
