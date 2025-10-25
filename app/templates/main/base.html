@@ -83,8 +83,8 @@
                 <span>Обсуждаемое</span>
             </div>
 
-            <div class="menu-item">
-                <a href="{{ url_for('main.index') }}" class="menu-link"></a>
+            <div class="menu-item {% if active_page == 'people' %}active{% endif %}" name="main" data-href="{{ url_for('main.people') }}">
+                <a href="{{ url_for('main.people') }}" class="menu-link"></a>
                 <i class="fas fa-gem"></i>
                 <span>Люди</span>
             </div>

@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template
-from ..models.user import User
+from ..models.user import User, Subscriber
 from ..models.post import Post, PostLike, PostComments
 from datetime import datetime, timedelta
 from ..extensions import db
 from sqlalchemy import func # Для агрегатных функций
+from flask_login import current_user
 
 main = Blueprint('main', __name__)
 
@@ -49,3 +50,31 @@ def discussed():
     active_page = 'discussed'
 
     return render_template('main/index.html', active_page=active_page, posts=last_posts)
+
+
+@main.route('/people', methods=['GET'])
+def people():
+    users = (db.session.query(User))\
+    .join(Subscriber, User.id == Subscriber.user_id)\
+    .group_by(User.id)\
+    .order_by(func.count(Subscriber.id).desc())\
+    .all()
+
+    users_data = []
+    is_subscribe = False
+
+    for user in users:
+        user_data = user.get_user_data()
+        
+        # Проверяю подписку
+        is_subscribe = Subscriber.is_subscribe(subscriber_id=current_user.id, user_id=user.id)
+        user_data['is_subscribe'] = is_subscribe
+        
+        users_data.append(user_data)
+
+        print(user_data, is_subscribe)
+
+
+    active_page='people'
+    only_profiles = True
+    return render_template('main/index.html', only_profiles=only_profiles, active_page=active_page, users=users_data)
