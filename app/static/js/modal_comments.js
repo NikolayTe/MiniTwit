@@ -29,36 +29,28 @@ function fill_modal(orig_post, comModal, post_id){
 
 
 async function comOpenModal(post_id) {
-    const comModal = document.getElementById('comModal');
-    // comModal.style.display = 'block';
-    // comModal.setAttribute('data-post-id', post_id)
-    // document.getElementById('comModalOverlay').style.display = 'block';
-    // document.body.style.overflow = 'hidden';
+    // Это нужно чтобы обработчик не привязывался к элементу
+    let comModal = document.getElementById('comModal');
+    
+    const clone = comModal.cloneNode(true); 
+    // Заменяем оригинал клоном
+    comModal.replaceWith(clone);
+    comModal = clone;
 
     // Нахожу оригинальный пост и повторяю его
     const orig_post = document.querySelector(`.tweet[id="${post_id}"]`);
-    // comModal.querySelector('.com-username').textContent = orig_post.querySelector('.tweet-username').textContent;
-    // comModal.querySelector('.com-user-handle').textContent = orig_post.querySelector('.tweet-usertag').textContent;
-    // comModal.querySelector('.com-post-time').textContent = orig_post.querySelector('.tweet-time').textContent;
-    // comModal.querySelector('.com-post-text').textContent = orig_post.querySelector('.tweet-content').textContent;
-    // comModal.querySelector('.fa-heart').className  = orig_post.querySelector('.fa-heart').className;
-    // comModal.querySelector('.fa-heart').style.color = orig_post.querySelector('.fa-heart').style.color;
-    // comModal.querySelector('.com-post-header').querySelector('a').href = orig_post.querySelector('.tweet-header').querySelector('a').href;
-    // const like = comModal.querySelector('.fa-heart');
-    // const like_count = parseInt(orig_post.querySelector('.fa-heart').closest('.tweet-action').querySelector('span').textContent);
-    // comModal.querySelector('.com-like-area').querySelector('.likes-count').textContent = like_count
-    // // comModal.querySelector('.com-post-stats').querySelector('span').innerHTML = ''
-    // // comModal.querySelector('.com-post-stats').querySelector('span').innerHTML.appendChild(like)
-    // // comModal.querySelector('.com-post-stats').querySelector('span').innerHTML.appendChild(document.createTextNode(` ${like_count}`))
     
-    fill_modal(orig_post, comModal, post_id);
+   fill_modal(orig_post, comModal, post_id);
     
     // Добавляю клик к лайку и привязываю к ориг посту
     const modal_like = comModal.querySelector('.com-like-area');
     modal_like.addEventListener('click', async function(){
+        
         const orig_post = document.querySelector(`.tweet[id="${post_id}"]`);
-        await orig_post.querySelector('.fa-heart').click();
-        await new Promise(resolve => requestAnimationFrame(resolve));
+
+
+        orig_post.querySelector('.fa-heart').click();
+        new Promise(resolve => requestAnimationFrame(resolve));
         // Убираю возможность клика на время
         orig_post.querySelector('.fa-heart').style.pointerEvents = 'none';
 
@@ -68,6 +60,7 @@ async function comOpenModal(post_id) {
             orig_post.querySelector('.fa-heart').style.pointerEvents = 'auto';
         }, 100);
     })
+
     // Тоже самое для избранного
     const modal_fovar = comModal.querySelector('.com-favor-area');
     modal_fovar.addEventListener('click', async function(){

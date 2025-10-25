@@ -62,7 +62,6 @@ function update_page(){
                         }
 
                         const count_span = this.closest('.tweet-action').querySelector('span');
-                        console.log(count_span, result.count_likes)
                         count_span.textContent = result.count_likes;
 
                     }

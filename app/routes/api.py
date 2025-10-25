@@ -169,13 +169,13 @@ def like_action(post_id):
 
         count_likes = count_post_likes(post_id)
 
-        print({'success': True, 'count_likes': count_likes, 'is_like': is_like})
+        print({'success': True, 'count_likes': count_likes, 'is_like': is_like, 'post_id': post_id})
 
     except Exception as ex:
         db.session.rollback()
         return jsonify({'success': False, 'message': "Unknown error!", 'error': str(ex)})
                        
-    return jsonify({'success': True, 'count_likes': count_likes, 'is_like': is_like})
+    return jsonify({'success': True, 'count_likes': count_likes, 'is_like': is_like, 'post_id': post_id})
 
 
 @api.route('/api/subscribe/<int:user_id>', methods=['POST'])
