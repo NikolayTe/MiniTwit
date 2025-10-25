@@ -71,10 +71,16 @@
         <div class="sidebar">
             <div class="section-title">Актуальное</div>
 
-            <div class="menu-item">
-                <a href="{{ url_for('main.index') }}" class="menu-link"></a>
+            <div class="menu-item {% if active_page == 'popular' %}active{% endif %}" name="main" data-href="{{ url_for('main.popular') }}">
+                <a href="{{ url_for('main.popular') }}" class="menu-link"></a>
                 <i class="fas fa-fire"></i>
                 <span>Популярное</span>
+            </div>
+
+            <div class="menu-item {% if active_page == 'discussed' %}active{% endif %}" name="main" data-href="{{ url_for('main.discussed') }}">
+                <a href="{{ url_for('main.discussed') }}" class="menu-link"></a>
+                <i class="fas fa-bolt"></i>
+                <span>Обсуждаемое</span>
             </div>
 
             <div class="menu-item">
@@ -83,11 +89,6 @@
                 <span>Люди</span>
             </div>
 
-            <div class="menu-item">
-                <a href="{{ url_for('main.index') }}" class="menu-link"></a>
-                <i class="fas fa-bolt"></i>
-                <span>Новости</span>
-            </div>
 
             {% if current_user.is_authenticated %}
                 <div class="post-button-container" >

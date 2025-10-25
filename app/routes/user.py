@@ -25,6 +25,10 @@ def user_profil(id):
     print('id', id)
 
     user = User.query.get(id)
+    if not user:
+        user = User.query.get(current_user.id)
+
+
     user_data = user.get_user_data()
     active_page = 'profile'
 
