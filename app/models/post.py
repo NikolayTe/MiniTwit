@@ -24,6 +24,11 @@ class Post(db.Model):
     def __repr__(self):
         return f'<Post {self.id} by User {self.user_id}>'
     
+    @classmethod
+    def count_retweets(cls, post_id):
+        return cls.query.filter_by(parent_post_id=post_id).count()
+    
+    
 
 
 class PostLike(db.Model):

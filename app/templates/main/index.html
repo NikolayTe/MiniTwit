@@ -113,6 +113,63 @@
           <!-- <div class="tweet-image">
             <img src="https://source.unsplash.com/random/600x300/?coding" alt="Tweet image">
           </div> -->
+
+          <!-- Репостнутый пост -->
+           {% if post.parent_post %}
+              {% set parent = post.parent_post %}
+                <br>
+                <div class="tweet" id="{{ parent.id }}">
+                  <div class="tweet-header">
+                    <a href="{{ url_for('user.user_profile_posts', id=parent.user.id) }}" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                      <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="tweet-avatar">
+                      <div class="tweet-user-info">
+                        <span class="tweet-username">{{ parent.user.displayName }}</span>
+                        <span class="tweet-usertag">@{{ parent.user.username }}</span>
+                        <span class="tweet-time">· {{ parent.created_at.strftime('%H:%M  %d.%m.%Y') }}</span>
+                      </div>
+                    </a>
+                    <div class="tweet-more-options">···</div>
+                  </div>
+                  <div class="tweet-content">
+                    <p>{{ parent.content }}</p>
+                    <!-- <div class="tweet-image">
+                      <img src="https://source.unsplash.com/random/600x300/?coding" alt="Tweet image">
+                    </div> -->
+
+                  </div>
+                  <div class="tweet-footer">
+                    <div class="tweet-action">
+                      <i class="far fa-comment"></i>
+                      <span>{{ parent.comments|list|length }}</span>
+                    </div>
+                    <div class="tweet-action">
+                      <i class="fas fa-retweet"></i>
+                      <span>{{parent.count_retweets}}</span>
+                    </div>
+                    <div class="tweet-action">
+                      {% set user_like = parent.likes|selectattr("user_id", "equalto", current_user.id)|list %}
+                      {% if user_like %}
+                        <i class="fas fa-heart" style="color: red;"></i>
+                      {% else %}
+                        <i class="far fa-heart"></i>
+                      {% endif %}
+                      
+                      <span class="likes-count">{{ parent.likes|length }}</span>
+                    </div>
+                    <div class="tweet-action">
+                      {% set is_favourite = parent.favourites|selectattr("user_id",  "equalto", current_user.id)|list %}
+                      {% if is_favourite %}
+                        <i class="fas fa-bookmark" style="color: orange;"></i>
+                      {% else %}
+                        <i class="far fa-bookmark"></i>           <!-- fas fa-share  -->
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+            {% endif %}
+
+
+          <!-- Конец репостнутого поста -->
         </div>
         <div class="tweet-footer">
           <div class="tweet-action">
@@ -121,7 +178,7 @@
           </div>
           <div class="tweet-action">
             <i class="fas fa-retweet"></i>
-            <span>12</span>
+            <span>{{post.count_retweets}}</span>
           </div>
           <div class="tweet-action">
             {% set user_like = post.likes|selectattr("user_id", "equalto", current_user.id)|list %}

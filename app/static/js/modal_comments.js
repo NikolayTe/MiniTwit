@@ -10,7 +10,23 @@ function fill_modal(orig_post, comModal, post_id){
     comModal.querySelector('.com-username').textContent = orig_post.querySelector('.tweet-username').textContent;
     comModal.querySelector('.com-user-handle').textContent = orig_post.querySelector('.tweet-usertag').textContent;
     comModal.querySelector('.com-post-time').textContent = orig_post.querySelector('.tweet-time').textContent;
-    comModal.querySelector('.com-post-text').textContent = orig_post.querySelector('.tweet-content').textContent;
+    comModal.querySelector('.com-post-text').textContent = orig_post.querySelector('.tweet-content').querySelector('p').textContent;
+    
+    // Проверяю есть ли репостнутый пост
+    const retweet_post = orig_post.querySelector('.tweet-content').querySelector('.tweet');
+    // Если есть ретвитнутый пост и нет формочки "Ответил на пост"
+    let is_retweet = comModal.querySelector("#is_retweet");
+    if (retweet_post && !is_retweet){
+
+        comModal.querySelector('.com-post-text').insertAdjacentHTML('afterend',`<div id="is_retweet" style="margin-left: 50px; background-color: #eff6ff; color: #1d9bf0; padding: 10px 16px; border-radius: 8px; font-size: 15px; font-weight: 500; margin-bottom: 12px; display: inline-flex; align-items: center; gap: 8px; font-family: system-ui, sans-serif; border-left: 4px solid #3b82f6;">
+            <span>↶</span> Ответил на пост
+        </div> `)
+    }
+    if (!retweet_post && is_retweet){
+        is_retweet.remove()
+    }
+
+
     comModal.querySelector('.fa-heart').className  = orig_post.querySelector('.fa-heart').className;
     comModal.querySelector('.fa-heart').style.color = orig_post.querySelector('.fa-heart').style.color;
     comModal.querySelector('.com-post-header').querySelector('a').href = orig_post.querySelector('.tweet-header').querySelector('a').href;
@@ -32,10 +48,10 @@ async function comOpenModal(post_id) {
     // Это нужно чтобы обработчик не привязывался к элементу
     let comModal = document.getElementById('comModal');
     
-    const clone = comModal.cloneNode(true); 
+    const modal_clone = comModal.cloneNode(true); 
     // Заменяем оригинал клоном
-    comModal.replaceWith(clone);
-    comModal = clone;
+    comModal.replaceWith(modal_clone);
+    comModal = modal_clone;
 
     // Нахожу оригинальный пост и повторяю его
     let orig_post = document.querySelector(`.tweet[id="${post_id}"]`);

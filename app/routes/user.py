@@ -3,10 +3,29 @@ from ..extensions import db
 from ..models.user import User, Subscriber
 from flask_login import login_user, logout_user, current_user, login_required
 from functools import wraps
-from ..models.post import Post
+from ..models.post import Post, PostFavour
 
 
 user = Blueprint('user', __name__)
+
+
+def add_retweet_info(posts):
+    for post in posts:
+        # Количество ретвитов
+        post.count_retweets = Post.count_retweets(post.id)
+
+        if post.parent_post_id is not None:
+            parent_post = Post.query.get(post.parent_post_id)
+            parent_post.count_retweets = Post.count_retweets(parent_post.id)
+            post.parent_post = parent_post
+
+            
+        else:
+            post.parent_post = None
+
+    return posts
+
+
 
 def my_login_required(func):
     @wraps(func)
@@ -62,6 +81,9 @@ def user_profile_posts(id):
         is_subscribe = False
 
     user_posts = user.posts
+
+    user_posts = add_retweet_info(user_posts)
+
     return render_template('main/index.html', user_profile=user_profile, user=user_data, posts=user_posts, active_page=active_page, is_subscribe=is_subscribe)
 
 
@@ -74,6 +96,8 @@ def user_likes(id):
 
     user = User.query.get(id)
     posts = [like.post for like in user.likes]
+
+    posts = add_retweet_info(posts)
 
     user_profile = False
     active_page = 'likes'
@@ -95,6 +119,8 @@ def user_subscriptions(id):
         # posts += User.query.get(subscription.user_id).posts
         posts += Post.query.join(User).filter(User.id == subscription.user_id).order_by(Post.created_at.desc()).limit(10)
 
+    posts = add_retweet_info(posts)
+
     user_profile = False
     active_page = 'subscriptions'
     return render_template('main/index.html', user_profile=user_profile, posts=posts, active_page=active_page)
@@ -109,7 +135,8 @@ def user_favourites(id):
 
     user = User.query.get(id)
     posts = [favourite.post for favourite in user.favourites]
-
+    posts = add_retweet_info(posts)
+    
     user_profile = False
     active_page = 'favourites'
     return render_template('main/index.html', user_profile=user_profile, posts=posts, active_page=active_page)

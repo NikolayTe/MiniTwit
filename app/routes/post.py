@@ -3,7 +3,8 @@ from ..extensions import db
 from ..models.user import User
 from ..models.post import Post
 from flask_login import current_user
-from .user import my_login_required
+from .user import my_login_required, add_retweet_info
+
 
 post = Blueprint('post', __name__)
 
@@ -22,6 +23,8 @@ def user_posts(id):
     else:
         active_page = 'posts'
 
-    user_posts = Post.query.filter_by(user_id=current_user.id).all()
+    
+    user_posts_data = Post.query.filter_by(user_id=current_user.id).all()
+    user_posts_data = add_retweet_info(user_posts_data)
 
-    return render_template('main/index.html', active_page=active_page, posts=user_posts)
+    return render_template('main/index.html', active_page=active_page, posts=user_posts_data)

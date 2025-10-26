@@ -6,12 +6,30 @@ from ..extensions import db
 from sqlalchemy import func # Для агрегатных функций
 from flask_login import current_user
 
+from .user import add_retweet_info
+
 main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
 
     last_posts = Post.query.order_by(Post.created_at.desc()).limit(10).all()
+
+    # Констукция для постов с репостом
+    for post in last_posts:
+        # Количество ретвитов
+        post.count_retweets = Post.count_retweets(post.id)
+
+        if post.parent_post_id is not None:
+            parent_post = Post.query.get(post.parent_post_id)
+            parent_post.count_retweets = Post.count_retweets(parent_post.id)
+            post.parent_post = parent_post
+
+
+        else:
+            post.parent_post = None
+    
+
     active_page = 'main'
     return render_template("main/index.html", active_page=active_page, posts=last_posts)
 
@@ -30,6 +48,7 @@ def popular():
     .order_by(func.count(PostLike.id).desc(), Post.created_at.asc())\
     .all()
 
+    last_posts = add_retweet_info(last_posts)
     return render_template("main/index.html", active_page=active_page, posts=last_posts)
 
 
@@ -46,7 +65,7 @@ def discussed():
     .order_by(func.count(PostComments.id).desc(), Post.created_at.asc())\
     .all()
 
-
+    last_posts = add_retweet_info(last_posts)
     active_page = 'discussed'
 
     return render_template('main/index.html', active_page=active_page, posts=last_posts)

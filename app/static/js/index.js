@@ -263,7 +263,7 @@ async function comLoadMorePosts(btn){
                             </div>
                             <div class="tweet-action">
                                 <i class="fas fa-retweet"></i>
-                                <span>12</span>
+                                <span>${post.count_retweets}</span>
                             </div>
                             <div class="tweet-action">
                                 <i class="${post.user_like ? 'fas fa-heart' : 'far fa-heart'}" style="${post.user_like ? 'color: red;' : ''}"></i>

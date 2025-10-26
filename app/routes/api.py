@@ -5,6 +5,7 @@ from ..models.post import Post, PostLike, PostFavour, PostComments
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 from time import sleep
+from .user import add_retweet_info
 
 api = Blueprint('api', __name__)
 
@@ -379,6 +380,7 @@ def get_main_posts(page, per_page=10):
     try:
             
         posts = Post.query.order_by(Post.created_at.desc()).offset((page - 1) * per_page).limit(per_page).all()
+        posts = add_retweet_info(posts)
         last_posts = []
         
         for post in posts:
@@ -392,7 +394,8 @@ def get_main_posts(page, per_page=10):
                 'count_comments': len(post.comments),
                 'count_likes': PostLike.count_likes_post(post.id),
                 'is_favourite': PostFavour.is_favourite(post.id, current_user.id),
-                'user_like': PostLike.is_like(post.id, current_user.id)
+                'user_like': PostLike.is_like(post.id, current_user.id),
+                'count_retweets': post.count_retweets
             }
             last_posts.append(post_data)
 
