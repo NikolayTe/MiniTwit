@@ -38,7 +38,7 @@ async function comOpenModal(post_id) {
     comModal = clone;
 
     // Нахожу оригинальный пост и повторяю его
-    const orig_post = document.querySelector(`.tweet[id="${post_id}"]`);
+    let orig_post = document.querySelector(`.tweet[id="${post_id}"]`);
     
    fill_modal(orig_post, comModal, post_id);
     

@@ -382,7 +382,7 @@ def get_main_posts(page, per_page=10):
                 'user_id': post.user.id,
                 'displayName': post.user.displayName,
                 'username': post.user.username,
-                'created_ats': post.created_at.strftime('%H:%M  %d.%m.%Y'),
+                'created_at': post.created_at.strftime('%H:%M  %d.%m.%Y'),
                 'content': post.content,
                 'count_comments': len(post.comments),
                 'count_likes': PostLike.count_likes_post(post.id),
