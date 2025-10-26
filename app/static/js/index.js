@@ -186,6 +186,23 @@ function update_page(){
         }
 
     })
+
+    // Функционал репоста
+    const btns_retweet = document.querySelectorAll('.fa-retweet');
+
+    btns_retweet.forEach(btn_retweet => {
+        let btn = btn_retweet.parentElement;
+        let tweet = btn.closest('.tweet');
+        let post_id = parseInt(tweet.id);
+        
+        btn.addEventListener('click', function(){
+            let tweet_copy = tweet.cloneNode(true);
+
+            console.log('Click retweet, post_id = ', post_id, tweet_copy);
+            open_modal_retweet(post_id, tweet_copy);
+            
+        });
+    });
 };
 
 

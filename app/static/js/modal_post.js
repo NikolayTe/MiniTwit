@@ -2,6 +2,7 @@ const modalPostOverlay = document.getElementById('modalPostOverlay');
 const modalPostInput = document.getElementById('modalPostInput');
 const modalPostCharacterCount = document.getElementById('modalPostCharacterCount');
 const modalPostSubmitButton = document.getElementById('modalPostSubmitButton');
+
 function openModalPost() {
     modalPostOverlay.classList.add('active');
     modalPostInput.focus();
@@ -12,6 +13,18 @@ function closeModalPost() {
     modalPostInput.value = '';
     updatePostCharacterCount();
     document.body.style.overflow = 'auto';
+
+    // Удаляю пост для ретвита при закрытии 
+    let tweet = modalPostOverlay.querySelector('.tweet');
+    if (tweet){
+        tweet.remove();
+    }
+    // А так же удаляю дата атрибут
+    let content_area = modalPostOverlay.querySelector('.modal-post-input-container');
+    content_area.removeAttribute('data-parent-post-id');
+
+    
+
 }
 function updatePostCharacterCount() {
     const length = modalPostInput.value.length;
@@ -29,18 +42,11 @@ function updatePostCharacterCount() {
     // Активируем кнопку только если есть текст
     modalPostSubmitButton.disabled = length === 0 || length > 280;
 }
-async function handlePostSubmit(event) {
-    event.preventDefault();
-    
-    const tweetText = modalPostInput.value.trim();
-    
-    if (tweetText && tweetText.length <= 280) {
-        console.log('Отправка твита:', tweetText);
-        // Здесь будет логика отправки твита
-        const data = {'text': tweetText
-        }
 
-        try {
+
+async function creteNewPost(data) {
+
+    try {
             const response = await fetch(`/api/new_post`, {
                 method: 'POST',
                 headers: {
@@ -52,14 +58,12 @@ async function handlePostSubmit(event) {
             if (response.ok) {
                 const result = await response.json();
                 if (result.success) {
-                    alert(`Твит отправлен: ${tweetText}`);
-
+                    alert(`Твит отправлен: ${data.text}`);
                 }
                 else {
                     alert(result.message); 
                 }
                 console.log('Результат:', result);
-
             } else {
                 alert('Ошибка при сохранении: ' + response.status);
             }
@@ -67,10 +71,38 @@ async function handlePostSubmit(event) {
             console.error('Ошибка:', error);
             alert('Произошла ошибка при отправке данных');
         }
+    }
+
+
+async function handlePostSubmit(event) {
+    event.preventDefault();
+    
+    const tweetText = modalPostInput.value.trim();
+    const content_area = modalPostOverlay.querySelector('.modal-post-input-container');
+    const parent_post_id = content_area.getAttribute('data-parent-post-id');
+    const data = {'text': tweetText,
+                'parent_post_id': parent_post_id
+                    }
+    
+    if (tweetText && tweetText.length <= 280) {
+        console.log('Отправка твита:', tweetText);
+        // Здесь будет логика отправки твита
+        
+
+        try{
+            await creteNewPost(data)
+        }
+        catch(error) {
+            alert('Произошла ошибка при отправке данных');
+        }
+
+        
 
         closeModalPost();
     }
 }
+
+
 // Закрытие модального окна по клику на overlay
 modalPostOverlay.addEventListener('click', function(event) {
     if (event.target === modalPostOverlay) {
@@ -83,3 +115,16 @@ document.addEventListener('keydown', function(event) {
         closeModalPost();
     }
 });
+
+
+function open_modal_retweet(post_id, tweet){
+    modalPostOverlay.classList.add('active');
+    modalPostInput.focus();
+    document.body.style.overflow = 'hidden';
+
+    let content_area = modalPostOverlay.querySelector('.modal-post-input-container');
+    content_area.appendChild(tweet);
+
+    content_area.setAttribute('data-parent-post-id', post_id);
+
+}

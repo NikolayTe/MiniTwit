@@ -113,12 +113,17 @@ def edit_profile(id):
 @login_required
 def new_post():
     content = request.json.get('text')
+    parent_post_id = request.json.get('parent_post_id')
+    if parent_post_id:
+        parent_post_id = int(parent_post_id)
+
+
     if content == '':
         return jsonify({'success': False, 'message': 'The post can"t been empty!'})
     
     try:
         
-        new_post = Post(user_id=current_user.id, content=request.json.get('text'))
+        new_post = Post(user_id=current_user.id, content=content, parent_post_id=parent_post_id)
         db.session.add(new_post)
         db.session.commit()
 
