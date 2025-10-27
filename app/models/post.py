@@ -8,7 +8,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     content = db.Column(db.Text, nullable=False)
     image_url = db.Column(db.String(255), default='')
-    parent_post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=True)
+    parent_post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
@@ -16,6 +16,8 @@ class Post(db.Model):
     replies_count = db.Column(db.Integer, default=0)
     retweets_count = db.Column(db.Integer, default=0)
     is_edited = db.Column(db.Boolean, default=False)
+
+    is_deleted_parent_post = db.Column(db.Boolean, default=False)
     
     # Связи
     user = db.relationship('User', backref=db.backref('posts', lazy=True))
@@ -36,7 +38,7 @@ class PostLike(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     
     # Связи
@@ -65,7 +67,7 @@ class PostFavour(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
     added_at = db.Column(db.DateTime, default=datetime.now)
 
     user = db.relationship('User', backref=db.backref('favourites', lazy=True))
@@ -84,7 +86,7 @@ class PostComments(db.Model):
     __tablename__  = 'post_comments'
 
     id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     comment = db.Column(db.String(300), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)

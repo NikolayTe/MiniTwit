@@ -203,7 +203,63 @@ function update_page(){
             
         });
     });
+
+    // Для выпадающего списка
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
+        let btn_delete = dropdown.querySelector('[data-action="delete"]');
+        btn_delete.addEventListener('click', function(){
+            let post = btn_delete.closest('.tweet')
+            const post_id = post.id;
+            delete_post(post_id, post);
+
+        })
+        
+    })
 };
+
+
+
+async function delete_post(post_id, post) {
+    try {
+        const response = await fetch(`/api/delete_post/${post_id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            if (result.success) {
+                console.log(post_id, 'Удален')
+
+                post.style.transition = 'all 0.3s ease';
+                post.style.opacity = '0';
+                post.style.transform = 'translateX(100px)';
+                
+                setTimeout(() => {
+                    post.remove();
+                }, 300);
+
+            }
+
+            else {
+                alert(result.message); 
+            }
+        } else {
+            alert('Ошибка при удалении поста. Вы точно авторизованы? ' + response.status);
+        }
+    } catch (error) {
+        console.error('Ошибка:', error);
+        alert('Произошла ошибка при удалении поста');
+    }
+    
+}
+
+
+
+
 
 
 update_page();

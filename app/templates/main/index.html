@@ -106,7 +106,23 @@
               <span class="tweet-time">· {{ post.created_at.strftime('%H:%M  %d.%m.%Y') }}</span>
             </div>
           </a>
-          <div class="tweet-more-options">···</div>
+          <div class="dropdown">
+            <div class="tweet-more-options">···</div>
+            <div class="dropdown-content">
+              <!-- <button class="dropdown-item data-action="pin"">
+                <span>📌</span> Закрепить
+              </button> -->
+              <button class="dropdown-item" data-action="delete">
+                <span>🗑️</span> Удалить
+              </button>
+              <button class="dropdown-item" data-action="report">
+                <span>🚩</span> Пожаловаться
+              </button>
+            </div>
+          </div>
+
+          <!-- <div class="tweet-more-options">···</div> -->
+
         </div>
         <div class="tweet-content">
           <p>{{ post.content }}</p>
@@ -115,6 +131,12 @@
           </div> -->
 
           <!-- Репостнутый пост -->
+            {% if post.is_deleted_parent_post %}
+                <div class="minimal-deleted-blue">
+                  <span class="minimal-icon">⛔</span>
+                  <span class="minimal-text">Пост удалён</span>
+                </div>
+            {% endif %}
            {% if post.parent_post %}
               {% set parent = post.parent_post %}
                 <br>
@@ -128,7 +150,7 @@
                         <span class="tweet-time">· {{ parent.created_at.strftime('%H:%M  %d.%m.%Y') }}</span>
                       </div>
                     </a>
-                    <div class="tweet-more-options">···</div>
+                    <!-- <div class="tweet-more-options">···</div> -->
                   </div>
                   <div class="tweet-content">
                     <p>{{ parent.content }}</p>

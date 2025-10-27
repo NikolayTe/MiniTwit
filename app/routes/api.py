@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 from time import sleep
 from .user import add_retweet_info
+from sqlalchemy import text
 
 api = Blueprint('api', __name__)
 
@@ -407,3 +408,45 @@ def get_main_posts(page, per_page=10):
         return jsonify({'success': False, 'message': str(ex), 'error': str(ex)})
     
     
+
+@api.route('/api/delete_post/<int:post_id>', methods=['DELETE'])
+def delete_post(post_id):
+
+    if not current_user.is_authenticated:
+        return jsonify({'success': False, 'message': 'Пожалуйста авторизируйтесь!'})
+
+    post = Post.query.get(post_id)
+
+    if not post:
+        return jsonify({'success': False, 'message': f'Поста id={post_id} не существует!'})
+
+    owner_id = post.user_id
+
+    if current_user.id != owner_id:
+        return jsonify({'success': False, 'message': 'Удалять можно только свои посты!'})
+
+
+    try:
+        # Нахожу все посты которые ссылаются на этот пост
+        clild_posts = Post.query.filter_by(parent_post_id=post_id).all()
+        for clild_post in clild_posts:
+            if clild_post.parent_post_id:
+                clild_post.parent_post_id = None
+                clild_post.is_deleted_parent_post = True
+
+        db.session.commit()
+        db.session.execute(
+            text('DELETE FROM posts where id = :post_id'),
+            {'post_id': post_id}
+        )
+
+        # db.session.delete(post)
+        db.session.commit()
+
+    except Exception as ex:
+        print(ex)
+        db.session.rollback()
+        return jsonify({'success': False, 'message': str(ex)})
+
+    return jsonify({'success': True})
+
