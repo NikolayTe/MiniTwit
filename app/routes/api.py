@@ -34,7 +34,7 @@ def register():
                     'success': False, 'message': 'The user with this email already exists!'
                     })
 
-        new_user = User(displayName=name, email=email, username=username)
+        new_user = User(displayName=name, email=email, username=username, avatar_path='uploads/avatar/avatar.png')
         new_user.set_password(password)
 
         db.session.add(new_user)
