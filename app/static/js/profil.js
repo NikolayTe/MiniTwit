@@ -44,6 +44,57 @@ document.querySelector('.cancel-btn').addEventListener('click', function() {
         window.location.reload();
     }
 });
+
+// Смена аватарки
 document.querySelector('.avatar-upload-btn').addEventListener('click', function() {
-    alert('Функция смены аватара будет реализована позже');
+    // alert('Функция смены аватара будет реализована позже');
+
+    const file_input = document.createElement('input');
+    file_input.type = 'file';
+    file_input.accept = '.png,.jpg,.jpeg,.gif';
+    file_input.style.display = 'none';
+
+    document.body.appendChild(file_input);
+    file_input.click()
+
+    file_input.addEventListener('change', function(){
+        if(file_input.files && file_input.files[0] ){
+            const file = file_input.files[0];
+            upload_avatar(file);
+        }
+
+    })
+
+    document.body.removeChild(file_input);
+
+
 });
+
+
+async function upload_avatar(file) {
+    const form_data = new FormData();
+    form_data.append('avatar', file);
+
+    try{
+        const response = await fetch('/upload/avatar', {
+            method: 'POST',
+            body: form_data
+        });
+
+        if (response.ok){
+            const result = await response.json();
+            let avatar = document.querySelector('.avatar-section').querySelector('.avatar');
+            let avatar_img = avatar.querySelector('img');
+
+            avatar_img.src = result.avatar_url
+            // alert('Аватар успешно загружен!')
+
+        }else{
+            alert('Ошибка при загрузке аватарки: ' + response.status);
+        }
+
+    }catch (error){
+        console.error('Ошибка:', error);
+        alert('Произошла ошибка при загрузке аватарки');
+    }
+}

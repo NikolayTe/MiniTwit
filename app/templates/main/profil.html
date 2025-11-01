@@ -17,7 +17,13 @@
         </div>
         
         <div class="avatar-section">
-            <div class="avatar">ИП</div>
+            <div class="avatar">
+                {% if user.avatar_path %}
+                    <img src="{{ url_for('static', filename=user.avatar_path) }}" alt="Аватар">
+                {% else %}
+                    <img src="{{ url_for('static', filename='uploads/avatar/avatar.png') }}" alt="Аватар">
+                {% endif %}
+            </div>
             <div class="avatar-upload">
                 <button class="avatar-upload-btn">Сменить аватар</button>
                 <span style="font-size: 12px; color: #65676b;">JPG, PNG или GIF. Макс. 5MB</span>

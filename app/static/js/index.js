@@ -214,6 +214,12 @@ function update_page(){
             delete_post(post_id, post);
 
         })
+
+        let btn_report = dropdown.querySelector('[data-action="report"]');
+        btn_report.addEventListener('click', function(){
+            alert('Чуть позже будет')
+
+        })
         
     })
 };
@@ -297,14 +303,27 @@ async function comLoadMorePosts(btn){
                         <div class="tweet" id="${post.post_id}">
                             <div class="tweet-header">
                             <a href="/user/${post.user_id}/profile_posts" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
-                                <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="tweet-avatar">
+                                <img src="${post.avatar_url}" alt="User" class="tweet-avatar">
                                 <div class="tweet-user-info">
                                 <span class="tweet-username">${post.displayName}</span>
                                 <span class="tweet-usertag">@${post.username}</span>
                                 <span class="tweet-time">· ${ post.created_at }</span>
                                 </div>
                             </a>
-                            <div class="tweet-more-options">···</div>
+                            <div class="dropdown">
+                                <div class="tweet-more-options">···</div>
+                                <div class="dropdown-content">
+                                <!-- <button class="dropdown-item data-action="pin"">
+                                    <span>📌</span> Закрепить
+                                </button> -->
+                                <button class="dropdown-item" data-action="delete">
+                                    <span>🗑️</span> Удалить
+                                </button>
+                                <button class="dropdown-item" data-action="report">
+                                    <span>🚩</span> Пожаловаться
+                                </button>
+                                </div>
+                            </div>
                             </div>
                             <div class="tweet-content">
                             <p>${ post.content }</p>

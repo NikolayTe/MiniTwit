@@ -11,6 +11,7 @@ function fill_modal(orig_post, comModal, post_id){
     comModal.querySelector('.com-user-handle').textContent = orig_post.querySelector('.tweet-usertag').textContent;
     comModal.querySelector('.com-post-time').textContent = orig_post.querySelector('.tweet-time').textContent;
     comModal.querySelector('.com-post-text').textContent = orig_post.querySelector('.tweet-content').querySelector('p').textContent;
+    comModal.querySelector('.tweet-avatar').src = orig_post.querySelector('.tweet-avatar').src;
     
     // Проверяю есть ли репостнутый пост
     const retweet_post = orig_post.querySelector('.tweet-content').querySelector('.tweet');
@@ -115,7 +116,7 @@ async function comOpenModal(post_id) {
                             <div class="com-comment-header id=${user.user_id}">
 
                                 <a href="/user/${user.user_id}/profile_posts" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
-                                    <div class="com-comment-avatar">Г</div>
+                                    <img src="${user.avatar_url}" alt="User" style="width: 45px; height: 45px;" class="tweet-avatar">
                                     <div>
                                         <span class="com-comment-user">${user.display_name}</span>
                                         <span class="com-comment-handle">@${user.user_name}</span>
@@ -203,7 +204,7 @@ async function comSendComment(button) {
                                 <div class="com-comment">
                             <div class="com-comment-header id=${result.comment_data.user_id}">
                                 <a href="/user/${result.comment_data.user_id}/profile_posts" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
-                                    <div class="com-comment-avatar">Г</div>
+                                    <img src="${result.comment_data.avatar_url}" alt="User" style="width: 45px; height: 45px;" class="tweet-avatar">
                                     <div>
                                         <span class="com-comment-user">${result.comment_data.display_name}</span>
                                         <span class="com-comment-handle">@${result.comment_data.user_name}</span>

@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, url_for
 from ..extensions import db
 from ..models.user import User, check_user_from_db, Subscriber
 from ..models.post import Post, PostLike, PostFavour, PostComments
@@ -7,6 +7,9 @@ from flask_login import login_user, logout_user, login_required, current_user
 from time import sleep
 from .user import add_retweet_info
 from sqlalchemy import text
+from ..config import UPLOAD_FOLDER_AVATAR, AVATAR_PATH_DB
+import os
+
 
 api = Blueprint('api', __name__)
 
@@ -224,7 +227,7 @@ def get_subsribers_list(id):
 
             username = subscriber_user.get('displayName')
             handle = subscriber_user.get('username')
-            avatar = subscriber_user.get('avatar_path')
+            avatar = url_for('static', filename=subscriber_user.get('avatar_path'), _external=True)
             
             if current_user.is_authenticated:
                 isSubscribed = Subscriber.is_subscribe(current_user.id, subscriber_id)
@@ -257,7 +260,7 @@ def get_subscriptions_list(user_id):
 
             username = subscription_data.get('displayName')
             handle = subscription_data.get('username')
-            avatar = subscription_data.get('avatar_path')
+            avatar = url_for('static', filename=subscription_data.get('avatar_path'), _external=True)
 
             if current_user.is_authenticated:
                 isSubscribed = Subscriber.is_subscribe(current_user.id, subscription_id)
@@ -321,7 +324,7 @@ def get_comments(post_id):
                    'display_name': comment.user.displayName,
                    'created_at': comment.created_at,
                    'comment_text': comment.comment,
-                   'avatar_path' : comment.user.avatar_path
+                   'avatar_url' : url_for('static', filename=comment.user.avatar_path)
             }
             comments_list.append(dct)
 
@@ -363,7 +366,7 @@ def set_comment(post_id):
                    'display_name': new_comment.user.displayName,
                    'created_at': new_comment.created_at,
                    'comment_text': new_comment.comment,
-                   'avatar_path' : new_comment.user.avatar_path
+                   'avatar_url' : url_for('static', filename=new_comment.user.avatar_path)
             }
         print('comment_data', comment_data)
         return jsonify({'success': True, 'message': 'Комментарий успешно добавлен!', 'comment_data': comment_data})
@@ -396,7 +399,8 @@ def get_main_posts(page, per_page=10):
                 'count_likes': PostLike.count_likes_post(post.id),
                 'is_favourite': PostFavour.is_favourite(post.id, current_user.id),
                 'user_like': PostLike.is_like(post.id, current_user.id),
-                'count_retweets': post.count_retweets
+                'count_retweets': post.count_retweets,
+                'avatar_url': url_for('static', filename=post.user.get_user_data().get('avatar_path'), _external=True)
             }
             last_posts.append(post_data)
 
@@ -450,3 +454,43 @@ def delete_post(post_id):
 
     return jsonify({'success': True})
 
+
+
+@api.route('/upload/avatar', methods=["POST"])
+def upload_avatar():
+    if not current_user.is_authenticated:
+        return jsonify({'success': False, 'message': 'Пожалуйста авторизируйтесь!'})
+    
+    if 'avatar' not in request.files:
+        return {'success': False, 'message': 'Нет файла'}, 400
+
+    try:
+        file = request.files['avatar']
+        new_filename = f'avatar_{current_user.id}_' + file.filename
+
+        # Проверяю есть ли старые аватарки пользователя и удаляю
+        for filename in os.listdir(UPLOAD_FOLDER_AVATAR):
+            if filename.startswith(f'avatar_{current_user.id}_'):
+                os.remove(os.path.join(UPLOAD_FOLDER_AVATAR, filename))
+
+        # Загружаю новый
+        file_path = os.path.join(UPLOAD_FOLDER_AVATAR, new_filename)
+        file.save(file_path)
+
+        user = User.query.get(current_user.id)
+        avatar_path = os.path.join(AVATAR_PATH_DB, new_filename)
+
+        print('avatar_path = ', avatar_path)
+        user.avatar_path = avatar_path
+
+        db.session.add(user)
+        db.session.commit()
+
+        avatar_url = url_for('static', filename=avatar_path, _external=True)
+        return jsonify({'success': True, 'avatar_path': avatar_path, 'avatar_url': avatar_url})
+
+    except Exception as ex:
+        db.session.rollback()
+        return jsonify({'success': False, 'message': str(ex), 'error': str(ex)}) 
+
+    

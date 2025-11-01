@@ -21,7 +21,7 @@
       <div class="user-profile-card" id="{{user.id}}">
         <div class="tweet-header">
           <a href="{{ url_for('user.user_profile_posts', id=user.id) }}" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
-            <img src="https://russian.people.com.cn/NMediaFile/2024/0408/FOREIGN1712567381216Q9C7PEHJ8A.jpg" alt="User" class="tweet-avatar">
+            <img src="{{ url_for('static', filename=user.avatar_path) }}" alt="User" class="tweet-avatar">
             <div class="tweet-user-info">
               <span class="tweet-username">{{ user.displayName }}</span>
               <span class="tweet-usertag">@{{ user.username }}</span>
@@ -61,7 +61,7 @@
     {% if user_profile %}
     <div class="user-profile-card" id="{{user.id}}">
       <div class="tweet-header">
-        <img src="https://russian.people.com.cn/NMediaFile/2024/0408/FOREIGN1712567381216Q9C7PEHJ8A.jpg" alt="User" class="tweet-avatar">
+        <img src="{{ url_for('static', filename=user.avatar_path) }}" alt="User" class="tweet-avatar">
         <div class="tweet-user-info">
           <span class="tweet-username">{{ user.displayName }}</span>
           <span class="tweet-usertag">@{{ user.username }}</span>
@@ -99,7 +99,7 @@
       <div class="tweet" id="{{ post.id }}">
         <div class="tweet-header">
           <a href="{{ url_for('user.user_profile_posts', id=post.user.id) }}" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
-            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="tweet-avatar">
+            <img src="{{ url_for('static', filename=post.user.avatar_path) }}" alt="User" class="tweet-avatar">
             <div class="tweet-user-info">
               <span class="tweet-username">{{ post.user.displayName }}</span>
               <span class="tweet-usertag">@{{ post.user.username }}</span>
@@ -143,7 +143,7 @@
                 <div class="tweet" id="{{ parent.id }}">
                   <div class="tweet-header">
                     <a href="{{ url_for('user.user_profile_posts', id=parent.user.id) }}" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
-                      <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="tweet-avatar">
+                      <img src="{{ url_for('static', filename=parent.user.avatar_path) }}" alt="User" class="tweet-avatar">
                       <div class="tweet-user-info">
                         <span class="tweet-username">{{ parent.user.displayName }}</span>
                         <span class="tweet-usertag">@{{ parent.user.username }}</span>

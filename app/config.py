@@ -1,6 +1,13 @@
 import os
 
 
+UPLOAD_FOLDER_AVATAR = os.path.join('app', 'static', 'uploads', 'avatar')
+if not os.path.exists(UPLOAD_FOLDER_AVATAR):
+    os.makedirs(UPLOAD_FOLDER_AVATAR)
+
+AVATAR_PATH_DB = os.path.join('uploads', 'avatar')
+
+
 class Config(object):
     USER = os.environ.get('POSTGRES_USER', 'edmin')
     PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'edmin')

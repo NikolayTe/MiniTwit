@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
     displayName = db.Column(db.String(50))
     password_hash = db.Column(db.String(255))
     bio = db.Column(db.String(300))
-    avatar_path = db.Column(db.String(50))
+    avatar_path = db.Column(db.String(250))
     created_at = db.Column(db.Date, default=date.today)
 
     location = db.Column(db.String(255), nullable=True)
