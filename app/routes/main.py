@@ -74,7 +74,7 @@ def discussed():
 @main.route('/people', methods=['GET'])
 def people():
     users = (db.session.query(User))\
-    .join(Subscriber, User.id == Subscriber.user_id)\
+    .outerjoin(Subscriber, User.id == Subscriber.user_id)\
     .group_by(User.id)\
     .order_by(func.count(Subscriber.id).desc())\
     .all()

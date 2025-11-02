@@ -24,7 +24,7 @@ def user_posts(id):
         active_page = 'posts'
 
     
-    user_posts_data = Post.query.filter_by(user_id=current_user.id).all()
+    user_posts_data = Post.query.filter_by(user_id=current_user.id).order_by(Post.created_at.desc()).all()
     user_posts_data = add_retweet_info(user_posts_data)
 
     return render_template('main/index.html', active_page=active_page, posts=user_posts_data)

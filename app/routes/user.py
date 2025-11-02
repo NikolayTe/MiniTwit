@@ -3,7 +3,7 @@ from ..extensions import db
 from ..models.user import User, Subscriber
 from flask_login import login_user, logout_user, current_user, login_required
 from functools import wraps
-from ..models.post import Post, PostFavour
+from ..models.post import Post, PostFavour, PostLike
 
 
 user = Blueprint('user', __name__)
@@ -43,6 +43,9 @@ def my_login_required(func):
 def user_profil(id):
     print('id', id)
 
+    if id != current_user.id:
+        return render_template('/main/custom_index.html', message='Тебе сюда нельзя!')
+
     user = User.query.get(id)
     if not user:
         user = User.query.get(current_user.id)
@@ -81,6 +84,13 @@ def user_profile_posts(id):
         is_subscribe = False
 
     user_posts = user.posts
+    user_posts = db.session.query(Post)\
+                    .join(User, User.id == Post.user_id)\
+                    .filter(User.id == id)\
+                    .order_by(Post.created_at.desc())\
+                    .all()
+
+    # user_posts = Post.query.filter(Post.user_id == id).order_by(Post.created_at.desc()).all()
 
     user_posts = add_retweet_info(user_posts)
 
@@ -95,7 +105,14 @@ def user_likes(id):
         return render_template('/main/custom_index.html', message='Можно посмотреть только свои лайки!')
 
     user = User.query.get(id)
-    posts = [like.post for like in user.likes]
+
+    posts = db.session.query(Post)\
+            .join(PostLike, PostLike.post_id == Post.id)\
+            .filter(PostLike.user_id == id)\
+            .order_by(PostLike.created_at.desc())\
+            .all()
+    
+    # posts = [like.post for like in user.likes]
 
     posts = add_retweet_info(posts)
 
@@ -115,10 +132,17 @@ def user_subscriptions(id):
     subscriptions = user.subscriptions
 
     posts = []
-    for subscription in subscriptions:
-        # posts += User.query.get(subscription.user_id).posts
-        posts += Post.query.join(User).filter(User.id == subscription.user_id).order_by(Post.created_at.desc()).limit(10)
+    # for subscription in subscriptions:
+    #     # posts += User.query.get(subscription.user_id).posts
+    #     posts += Post.query.join(User).filter(User.id == subscription.user_id).order_by(Post.created_at.desc()).limit(15)
 
+
+    posts = db.session.query(Post)\
+            .join(User, User.id == Post.user_id)\
+            .join(Subscriber, Subscriber.user_id == User.id)\
+            .filter(Subscriber.user_id_subscriber == id)\
+            .order_by(Post.created_at.desc())\
+            .all()
     posts = add_retweet_info(posts)
 
     user_profile = False
@@ -134,7 +158,13 @@ def user_favourites(id):
         return render_template('/main/custom_index.html', message='Можно посмотреть только своё избранное!')
 
     user = User.query.get(id)
-    posts = [favourite.post for favourite in user.favourites]
+    # posts = [favourite.post for favourite in user.favourites]
+    posts = db.session.query(Post)\
+    .join(PostFavour, PostFavour.post_id == Post.id)\
+    .filter(PostFavour.user_id == id)\
+    .order_by(PostFavour.added_at.desc())\
+    .all()
+
     posts = add_retweet_info(posts)
     
     user_profile = False

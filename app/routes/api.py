@@ -88,9 +88,13 @@ def logout():
 @api.route('/api/<int:id>/edit_profile', methods=['POST'])
 @login_required
 def edit_profile(id):
+
     try:
         if int(request.json.get('id')) != id:
             return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+        
+        if id != current_user.id:
+            return jsonify({'success': False, 'message': 'Чужой профиль изменять нельзя!'})
 
         data = request.get_json()
 
