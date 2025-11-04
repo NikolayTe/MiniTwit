@@ -86,8 +86,11 @@ def people():
         user_data = user.get_user_data()
         
         # Проверяю подписку
-        is_subscribe = Subscriber.is_subscribe(subscriber_id=current_user.id, user_id=user.id)
-        user_data['is_subscribe'] = is_subscribe
+        if current_user.is_authenticated:
+            is_subscribe = Subscriber.is_subscribe(subscriber_id=current_user.id, user_id=user.id)
+            user_data['is_subscribe'] = is_subscribe
+        else:
+            user_data['is_subscribe'] = False
         
         users_data.append(user_data)
 

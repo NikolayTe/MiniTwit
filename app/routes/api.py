@@ -390,7 +390,6 @@ def get_main_posts(page, per_page=10):
         posts = Post.query.order_by(Post.created_at.desc()).offset((page - 1) * per_page).limit(per_page).all()
         posts = add_retweet_info(posts)
         last_posts = []
-        
         for post in posts:
             post_data = {
                 'post_id': post.id,
@@ -401,18 +400,22 @@ def get_main_posts(page, per_page=10):
                 'content': post.content,
                 'count_comments': len(post.comments),
                 'count_likes': PostLike.count_likes_post(post.id),
-                'is_favourite': PostFavour.is_favourite(post.id, current_user.id),
-                'user_like': PostLike.is_like(post.id, current_user.id),
                 'count_retweets': post.count_retweets,
                 'avatar_url': url_for('static', filename=post.user.get_user_data().get('avatar_path'), _external=True)
             }
+            
+            if current_user.is_authenticated:
+                post_data.update({
+                    'is_favourite': PostFavour.is_favourite(post.id, current_user.id),
+                    'user_like': PostLike.is_like(post.id, current_user.id)
+                })
             last_posts.append(post_data)
 
 
         return jsonify({'success': True, 'posts': last_posts})
     
     except Exception as ex:
-
+        print(ex)
         return jsonify({'success': False, 'message': str(ex), 'error': str(ex)})
     
     
