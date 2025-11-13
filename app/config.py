@@ -23,12 +23,12 @@ class Config(object):
 
 
 # # Проброс порта из Windows в WSL
-# netsh interface portproxy add v4tov4 listenport=5000 listenaddress=192.168.0.4 connectport=5000 connectaddress=127.0.0.1
+# netsh interface portproxy add v4tov4 listenport=5000 listenaddress=192.168.100.11 connectport=5000 connectaddress=127.0.0.1
 
 # # Разрешить в фаерволе
 # netsh advfirewall firewall add rule name="WSL Flask" dir=in action=allow protocol=TCP localport=5000
 
-# 1. Удалить проброс порта:
+# 1. Удалить проброс порта: 
 # netsh interface portproxy delete v4tov4 listenport=5000 listenaddress=192.168.0.4
 # 2. Удалить правило фаервола:
 # netsh advfirewall firewall delete rule name="WSL Flask"

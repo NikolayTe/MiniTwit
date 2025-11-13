@@ -121,6 +121,9 @@ def edit_profile(id):
 @api.route('/api/new_post', methods=['POST'])
 @login_required
 def new_post():
+    if not current_user.is_authenticated:
+        return jsonify({'success': False, 'message': 'Пожалуйста авторизуйтесь!'})
+    
     content = request.json.get('text')
     parent_post_id = request.json.get('parent_post_id')
     if parent_post_id:
@@ -330,6 +333,7 @@ def get_comments(post_id):
                    'comment_text': comment.comment,
                    'avatar_url' : url_for('static', filename=comment.user.avatar_path)
             }
+            print('filename=comment.user.avatar_path', comment.user.avatar_path)
             comments_list.append(dct)
 
         sleep(0.5)
@@ -340,6 +344,10 @@ def get_comments(post_id):
 
 @api.route('/api/set_comment/<int:post_id>', methods=['POST'])
 def set_comment(post_id):
+
+    if not current_user.is_authenticated:
+        return jsonify({'success': False, 'message': 'Пожалуйста авторизуйтесь!'})
+
     data = request.get_json()
     print('data', data)
 

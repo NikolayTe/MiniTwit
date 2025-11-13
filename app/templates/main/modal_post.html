@@ -11,7 +11,11 @@
             <div class="modal-post-body">
                 <form class="modal-post-form" onsubmit="handlePostSubmit(event)">
                     <!-- <div class="modal-post-avatar"></div> -->
-                     <img src="{{url_for('static', filename=current_user.avatar_path)}}" alt="User" class="tweet-avatar">
+                     {% if current_user.is_authenticated %}
+                        <img src="{{url_for('static', filename=current_user.avatar_path)}}" alt="User" class="tweet-avatar">
+                     {% else %}
+                        <img src="{{url_for('static', filename='uploads/avatar/avatar.png')}}" alt="User" class="tweet-avatar">
+                     {% endif %}
                     <div class="modal-post-input-container">
                         <textarea class="modal-post-input" placeholder="Что происходит?" maxlength="280" oninput="updatePostCharacterCount()" id="modalPostInput"></textarea>
                     </div>

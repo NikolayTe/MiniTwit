@@ -65,7 +65,7 @@ async function creteNewPost(data) {
                 }
                 console.log('Результат:', result);
             } else {
-                alert('Ошибка при сохранении: ' + response.status);
+                alert('Вы точно авторизованы? ' + response.status);
             }
         } catch (error) {
             console.error('Ошибка:', error);

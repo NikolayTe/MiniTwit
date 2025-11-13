@@ -111,7 +111,11 @@
     <div class="com-comment-input">
         <div class="com-input-container">
             <!-- <div class="com-input-avatar">В</div> -->
-             <img src="{{url_for('static', filename=current_user.avatar_path)}}" style="width: 45px; height: 45px;" alt="User" class="tweet-avatar">
+             {% if current_user.is_authenticated  %}
+                <img src="{{url_for('static', filename=current_user.avatar_path)}}" style="width: 45px; height: 45px;" alt="User" class="tweet-avatar">
+             {% else %}
+                <img src="{{url_for('static', filename='uploads/avatar/avatar.png')}}" style="width: 45px; height: 45px;" alt="User" class="tweet-avatar">
+             {% endif %}
             <div class="com-input-wrapper">
                 <textarea 
                     class="com-text-input" 
