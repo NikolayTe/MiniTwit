@@ -207,3 +207,12 @@
 .pointer{
   cursor: pointer;
 }
+
+.tweet-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover;
+  border: 2px solid #f0f2f5;
+}
